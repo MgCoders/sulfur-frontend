@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatIconModule,
   MatButtonModule,
@@ -9,6 +9,7 @@ import {
   MatSelectModule,
   MatTooltipModule,
   MatDialogModule,
+  MatDatepickerModule,
 } from '@angular/material';
 
 import { CargosComponent } from './cargos.component';
@@ -21,10 +22,13 @@ import { CargoService } from '../_services/cargo.service';
 import { AlertService } from '../_services/alert.service';
 import { LayoutService } from '../layout/layout.service';
 import { HistoricoPrecioCargoComponent } from './historico-precio-cargo/historico-precio-cargo.component';
+import { AltaPrecioCargoComponent } from './alta-precio-cargo/alta-precio-cargo.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     CargosRoutingModule,
     MatIconModule,
@@ -34,6 +38,7 @@ import { HistoricoPrecioCargoComponent } from './historico-precio-cargo/historic
     MatSelectModule,
     MatTooltipModule,
     MatDialogModule,
+    MatDatepickerModule,
   ],
 
   exports: [
@@ -45,17 +50,20 @@ import { HistoricoPrecioCargoComponent } from './historico-precio-cargo/historic
     ListaCargosComponent,
     AltaCargoComponent,
     SelectCargoComponent,
-    HistoricoPrecioCargoComponent
+    HistoricoPrecioCargoComponent,
+    AltaPrecioCargoComponent
   ],
 
   providers: [
     CargoService,
     AlertService,
-    LayoutService
+    LayoutService,
+    DatePipe
   ],
 
   entryComponents: [
-    AltaCargoComponent
+    AltaCargoComponent,
+    AltaPrecioCargoComponent
   ],
 })
 export class CargosModule { }

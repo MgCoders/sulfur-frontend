@@ -5,6 +5,7 @@ import { CargoImp } from '../../_models/CargoImp';
 import { CargoService } from '../../_services/cargo.service';
 import { AlertService } from '../../_services/alert.service';
 import { LayoutService } from '../../layout/layout.service';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-alta-cargo',
@@ -14,6 +15,9 @@ import { LayoutService } from '../../layout/layout.service';
 export class AltaCargoComponent implements OnInit {
 
   public cargoActual: Cargo;
+
+  public nombreFC = new FormControl('', [Validators.required]);
+  public codigoFC = new FormControl('', [Validators.required]);
 
   constructor(public dialogRef: MatDialogRef<AltaCargoComponent>,
               @Inject(MAT_DIALOG_DATA) public data: [Cargo, Cargo[]],

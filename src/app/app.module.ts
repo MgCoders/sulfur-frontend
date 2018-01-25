@@ -87,6 +87,10 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { AuthService } from './_services/auth.service';
 import { AuthGuard } from './_guards/auth.guard';
 import { AdminGuard } from './_guards/admin.guard';
+import { AlertService } from './_services/alert.service';
+import { NotificacionService } from './_services/notificacion.service';
+import { DatePipe } from '@angular/common';
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
 
 @NgModule({
     imports: [
@@ -132,6 +136,7 @@ import { AdminGuard } from './_guards/admin.guard';
         // Sub modules
         LayoutModule,
         SharedModule,
+        VerticalTimelineModule
     ],
     declarations: [
         AppComponent,
@@ -164,8 +169,11 @@ import { AdminGuard } from './_guards/admin.guard';
     ],
     bootstrap: [AppComponent],
     providers: [
+        NotificacionService,
+        DatePipe,
         AuthService,
         ColaboradorService,
+        AlertService,
         AuthGuard,
         AdminGuard,
         {

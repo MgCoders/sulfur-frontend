@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
-import { AltaCargoComponent } from '../alta-cargo/alta-cargo.component';
+import { AltaPrecioCargoComponent } from '../alta-precio-cargo/alta-precio-cargo.component';
 import { CargoService } from '../../_services/cargo.service';
 import { AlertService } from '../../_services/alert.service';
 import { Cargo, PrecioHora } from '../../_models/models';
 import { LayoutService } from '../../layout/layout.service';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { ActivatedRoute } from '@angular/router';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-historico-precio-cargo',
@@ -33,7 +34,7 @@ export class HistoricoPrecioCargoComponent implements OnInit {
 
   LoadCargo() {
     this.layoutService.updatePreloaderState('active');
-    this.service.get(1).subscribe(
+    this.service.get(this.idCargoActual).subscribe(
       (data) => {
         this.cargoActual = data;
         this.cargoActual.precioHoraHistoria.sort((a: PrecioHora, b: PrecioHora) => {
@@ -48,31 +49,44 @@ export class HistoricoPrecioCargoComponent implements OnInit {
   }
 
   Nuevo() {
-    const dialog = this.dialog.open(AltaCargoComponent, {
-      data: [undefined, this.cargoActual.precioHoraHistoria],
+    const dialog = this.dialog.open(AltaPrecioCargoComponent, {
+      data: [undefined, this.cargoActual],
       width: '600px',
     });
+
+    dialog.afterClosed().subscribe(
+      (result) => {
+        if (result !== undefined && result.status) {
+          this.LoadCargo();
+        }
+      }
+    );
   }
 
-  Eliminar(x: Cargo) {
+  Eliminar(x: PrecioHora) {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
-      data: '¿Está seguro que desea eliminar el cargo ' + x.nombre + '?',
+      data: '¿Está seguro que desea eliminar el precio con vigencia ' + x.vigenciaDesde + '?',
     });
 
     dialogRef.afterClosed().subscribe(
       (result) => {
         if (result) {
-          // TODO
-          this.as.success('Cargo eliminado correctamente.', 3000);
+          const cargoAux: Cargo = new CargoImp(this.cargoActual);
+          cargoAux.precioHoraHistoria.splice(this.cargoActual.precioHoraHistoria.indexOf(x), 1);
+          this.layoutService.updatePreloaderState('active');
+          this.service.edit(cargoAux).subscribe(
+            (data) => {
+              this.cargoActual = data;
+              this.as.success('Precio eliminado correctamente.', 3000);
+              this.layoutService.updatePreloaderState('hide');
+            },
+            (error) => {
+              this.as.error('Error al eliminar el precio: ' + error, 5000);
+              this.layoutService.updatePreloaderState('hide');
+            }
+          );
         }
       });
-  }
-
-  Editar(x: Cargo) {
-    const dialog = this.dialog.open(AltaCargoComponent, {
-      data: [x, this.cargoActual.precioHoraHistoria],
-      width: '600px',
-    });
   }
 
   dateFromString(str: string): Date {

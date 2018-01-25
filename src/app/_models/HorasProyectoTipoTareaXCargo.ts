@@ -12,16 +12,12 @@
 
 import * as models from './models';
 
-export interface Colaborador {
-    id?: number;
-
-    email: string;
-
-    nombre: string;
-
+export interface HorasReporte1 {
+    cantidadHoras?: number;
+    proyecto?: models.Proyecto;
+    tipoTarea?: models.TipoTarea;
     cargo?: models.Cargo;
-
-    role: string;
-
-    token?: string;
+    precioTotal: number;
+    cantidadHorasEstimadas: number;
+    precioEstimado: number;
 }

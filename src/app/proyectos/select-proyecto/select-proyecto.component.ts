@@ -25,7 +25,7 @@ export class SelectProyectoComponent implements OnInit {
               private as: AlertService) { }
 
   ngOnInit() {
-    this.lista = new Array();
+    this.lista = [];
     this.service.getAll().subscribe(
       (data) => {
         this.lista = data;

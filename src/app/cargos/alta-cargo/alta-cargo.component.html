@@ -6,14 +6,16 @@
       <div class="row">
         <div class="col-12">
           <mat-input-container class="full-width">
-            <input [(ngModel)]="cargoActual.nombre" matInput placeholder="Nombre" name="Nombre">
+            <input [(ngModel)]="cargoActual.nombre" matInput placeholder="Nombre" name="Nombre" [formControl]="nombreFC">
+            <mat-error *ngIf="nombreFC.invalid">El nombre del cargo es obligatorio.</mat-error>
           </mat-input-container>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <mat-input-container class="full-width">
-            <input [(ngModel)]="cargoActual.codigo" matInput placeholder="Código" name="Codigo">
+            <input [(ngModel)]="cargoActual.codigo" matInput placeholder="Código" name="Codigo" [formControl]="codigoFC">
+            <mat-error *ngIf="codigoFC.invalid">El código del cargo es obligatorio.</mat-error>
           </mat-input-container>
         </div>
       </div>
@@ -30,7 +32,7 @@
 
 <div mat-dialog-actions class="full-width">
   <div class="full-width text-sm-right">
-    <button mat-button color="primary" class="btn-w-xs" [mat-dialog-close]="false">Cancelar</button>
-    <button mat-button color="primary" class="btn-w-md" (click)="Guardar()">Guardar</button>
+    <button mat-button color="info" class="btn-w-xs" [mat-dialog-close]="false">Cancelar</button>
+    <button [disabled]="nombreFC.invalid || codigoFC.invalid" mat-button color="primary" class="btn-w-md" (click)="Guardar()">Guardar</button>
   </div>
 </div>

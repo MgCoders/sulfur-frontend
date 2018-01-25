@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Precio Cargo {{data[1].nombre}}</h1>
+
+<div mat-dialog-content class="box box-default">
+  <div class="box-body">
+    <form>
+      <div class="row">
+        <div class="col-12">
+          <mat-input-container class="full-width">
+            <input [(ngModel)]="precioActual.precioHora" matInput placeholder="Precio/Hora" name="PrecioHora" [formControl]="importeFC">
+            <mat-error *ngIf="importeFC.hasError('required')">El precio por hora del cargo es obligatorio.</mat-error>
+            <mat-error *ngIf="importeFC.hasError('pattern')">El formato no es correcto, debe ser un número.</mat-error>
+          </mat-input-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width">
+            <input [(ngModel)]="fechaActual" name="fecha" class="full-width" matInput [matDatepicker]="picker" placeholder="Fecha de Vigencia" [formControl]="fechaFC">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="fechaFC.invalid">La fecha de vigencia es obligatoria.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div mat-dialog-actions class="full-width">
+  <div class="full-width text-sm-right">
+    <button mat-button color="info" class="btn-w-xs" [mat-dialog-close]="false">Cancelar</button>
+    <button [disabled]="importeFC.invalid || fechaFC.invalid" mat-button color="primary" class="btn-w-md" (click)="Guardar()">Guardar</button>
+  </div>
+</div>

@@ -25,10 +25,13 @@
             <td class="mdl-data-table__cell--non-numeric">{{x.codigo}}</td>
             <!-- <td>{{x.precioHora | number:'1.2'}}</td> -->
             <td>
-              <button mat-icon-button color="primary" (click)="Editar(x)">
+              <a matTooltipPosition="above" matTooltip="Histórico de Precios" mat-icon-button color="secondary" [routerLink]="['/app/cargos/historicoprecio/', x.id]">
+                <mat-icon class="material-icons">monetization_on</mat-icon>
+              </a>
+              <button matTooltipPosition="above" matTooltip="Editar Cargo" mat-icon-button color="primary" (click)="Editar(x)">
                 <mat-icon class="material-icons">mode_edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn">
+              <button matTooltipPosition="above" matTooltip="Eliminar Cargo" mat-icon-button color="warn">
                 <mat-icon class="material-icons" (click)="Eliminar(x)">delete</mat-icon>
               </button>
             </td>

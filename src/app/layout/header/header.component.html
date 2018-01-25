@@ -59,7 +59,7 @@
         </li>
         <li>
           <button mat-button class="md-button header-btn" [matMenuTriggerFor]="userMenu">
-              <ngx-avatar gravatarId={{currentUser.email}} name="{{currentUser.nombre}}" size="40"
+              <ngx-avatar gravatarId={{currentUser.email}} name="{{currentUser.nombre}}" size="60" textSizeRatio="4"
                           [round]="false"></ngx-avatar>
           </button>
           <mat-menu #userMenu="matMenu" x-position="before" y-position="below" overlapTrigger="true">

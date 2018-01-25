@@ -6,20 +6,28 @@
       <div class="row">
         <div class="col-12">
           <mat-input-container class="full-width">
-            <input [(ngModel)]="colaboradorActual.nombre" matInput placeholder="Nombre" name="Nombre">
+            <input [(ngModel)]="colaboradorActual.nombre" matInput placeholder="Nombre" name="Nombre" [formControl]="nombreFC">
+            <mat-error *ngIf="mailFC.hasError('required')">El nombre es obligatorio.</mat-error>
           </mat-input-container>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <mat-input-container class="full-width">
-            <input [(ngModel)]="colaboradorActual.email" matInput placeholder="E-Mail" name="Email">
+            <input [(ngModel)]="colaboradorActual.email" matInput placeholder="E-Mail" name="Email" [formControl]="mailFC">
+            <mat-error *ngIf="mailFC.hasError('email')">El mail no tiene formato correcto.</mat-error>
+            <mat-error *ngIf="mailFC.hasError('required')">El mail es obligatorio.</mat-error>
           </mat-input-container>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <app-select-cargo [object]="cargoActual" (onChange)="CargoOnChange($event)" idModel="id" placeHolder="Cargo" id="id" desc="nombre"></app-select-cargo>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-checkbox name="esAdmin" [(ngModel)]="esAdmin">¿Es Administrador?</mat-checkbox>
         </div>
       </div>
     </form>
@@ -29,6 +37,6 @@
 <div mat-dialog-actions class="full-width">
   <div class="full-width text-sm-right">
     <button mat-button color="primary" class="btn-w-xs" [mat-dialog-close]="false">Cancelar</button>
-    <button mat-button color="primary" class="btn-w-md" (click)="Guardar()">Guardar</button>
+    <button [disabled]="nombreFC.invalid || mailFC.invalid" mat-button color="primary" class="btn-w-md" (click)="Guardar()">Guardar</button>
   </div>
 </div>

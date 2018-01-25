@@ -85,7 +85,7 @@
           </div>
 
           <div class="col-12 col-sm-1 paddingLeftRigth">
-            <button [disabled]="minutosFC.invalid || horasFC.invalid || horaDetalleActual.proyecto === undefined || horaDetalleActual.tipoTarea === undefined" (click)="AgregarOnClick()" mat-icon-button color="accent">
+            <button matTooltipPosition="above" matTooltip="Agregar Registro" [disabled]="minutosFC.invalid || horasFC.invalid || horaDetalleActual.proyecto === undefined || horaDetalleActual.tipoTarea === undefined" (click)="AgregarOnClick()" mat-icon-button color="accent">
               <mat-icon class="material-icons">add</mat-icon>
             </button>
           </div>
@@ -103,8 +103,8 @@
                 <th>Tiempo<br/> 
                     Total: {{GetTotalCargado()}}</th>
                 <th>
-                  <mat-icon *ngIf="horaActual !== undefined && horaActual.completa" color="accent" class="material-icons">done</mat-icon>
-                  <mat-icon *ngIf="horaActual !== undefined && !horaActual.completa" color="warn" class="material-icons">error</mat-icon>
+                  <mat-icon matTooltipPosition="above" matTooltip="Día completado correctamente." *ngIf="horaActual !== undefined && horaActual.completa" color="accent" class="material-icons">done</mat-icon>
+                  <mat-icon matTooltipPosition="above" matTooltip="Día incompleto. Faltan registros de horas." *ngIf="horaActual !== undefined && !horaActual.completa" color="warn" class="material-icons">error</mat-icon>
                 </th>
               </tr>
             </thead>
@@ -161,14 +161,14 @@
             <td>{{x.subtotal | myTimePipe:'HH hs. mm min.'}}</td>
             <td>{{x.subtotalDetalles | myTimePipe:'HH hs. mm min.'}}</td>
             <td>
-              <mat-icon *ngIf="x.completa" color="accent" class="material-icons">done</mat-icon>
-              <mat-icon *ngIf="!x.completa" color="warn" class="material-icons">error</mat-icon>
+              <mat-icon matTooltipPosition="above" matTooltip="Día completado correctamente." *ngIf="x.completa" color="accent" class="material-icons">done</mat-icon>
+              <mat-icon matTooltipPosition="above" matTooltip="Día incompleto. Faltan registros de horas." *ngIf="!x.completa" color="warn" class="material-icons">error</mat-icon>
             </td>
             <td>
-              <button mat-icon-button color="primary" (click)="Editar(x)">
+              <button matTooltipPosition="above" matTooltip="Editar Día. Agregar/Quitar registro de horas." mat-icon-button color="primary" (click)="Editar(x)">
                 <mat-icon class="material-icons">mode_edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn">
+              <button matTooltipPosition="above" matTooltip="Eliminar Día." mat-icon-button color="warn">
                 <mat-icon class="material-icons" (click)="Eliminar(x)">delete</mat-icon>
               </button>
             </td>

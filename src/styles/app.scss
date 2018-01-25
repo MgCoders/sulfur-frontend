@@ -14,9 +14,38 @@
 @import "pages/terms";
 @import "pages/blog";
 @import "ui";
+@import "~angular-vertical-timeline/dist/vertical-timeline.css";
+
+.article {
+    padding-top: 20px;
+}
 
 .article-title{
-    padding-top: 30px !important;
-    margin-bottom: 10px !important;
+    padding-top: 10px !important;
 }
+
+.timeline-img {
+    background-color: #343a40 !important;
+}
+
+.timeline-content {
+    background-color: #20c997 !important;
+    border-style: none;
+    padding: 40px 30px 10px 30px !important;
+}
+
+.timeline-content > .date {
+    background: none !important;
+    color: black !important;
+}
+
+.timeline-content > .date > p {
+    color: black !important;
+}
+
+.timeline-content > .inner-content {
+    margin-top: 5px !important;
+}
+
+
 

@@ -33,7 +33,7 @@ export class AuthService {
     public isAuthenticated(): boolean {
         try {
             const token = this.getToken();
-            return (token != null) && !this.jwt.isTokenExpired(token);
+            return (token != null) && !this.jwt.isTokenExpired(token) && (this.getCurrentUser() != null);
         } catch (e) {
             return false;
         }

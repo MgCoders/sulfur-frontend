@@ -12,20 +12,21 @@
       <span class="nav-text">Horas</span>
     </a>
   </li>
-  <li>
-    <a mat-button>
-      <i class="nav-icon material-icons">equalizer</i>
-      <span class="nav-text">Reportes</span>
-    </a>
-  </li>
-  <li>
+  <!--<li>
     <a mat-button href="javascript:;" myToggleQuickview="customizer">
       <i class="nav-icon material-icons">settings</i>
       <span class="nav-text">Opciones</span>
     </a>
-  </li>
+  </li>-->
 
   <li class="nav-divider" *ngIf="isAdmin()"></li>
+  <li *ngIf="isAdmin()">
+      <a mat-button href="#/app/reportes"><i class="nav-icon material-icons">equalizer</i><span class="nav-text">Reportes</span></a>
+      <ul>
+        <li><a mat-button class="md-button prepend-icon"
+               [routerLink]="['/app/reportes/reporte1']"><span>Reporte 1</span></a></li>
+      </ul>
+  </li>
 
   <li *ngIf="isAdmin()">
     <a mat-button [routerLink]="['/app/cargos/lista']">

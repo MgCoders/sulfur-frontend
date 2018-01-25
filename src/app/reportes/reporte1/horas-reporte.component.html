@@ -1,0 +1,96 @@
+<section class="container-fluid with-maxwidth chapter">
+
+  <article class="article">
+    <div class="row">
+      <h2 class="article-title col-12 col-sm-3">Reporte Horas</h2>
+      <div class="col-12 col-sm-3"></div>
+      <div class="col-12 col-sm-3">
+        <app-select-proyecto  [object]="proyectoActual" idModel="id" placeHolder="PROYECTOS" id="id" desc="nombre" (onChange)="proyectoSeleccionado($event)"></app-select-proyecto>
+      </div>
+
+      <div class="col-12 col-sm-3">
+        <app-select-tarea  [object]="tareaActual" idModel="id" placeHolder="TAREAS" id="id" desc="nombre" (onChange)="tareaSeleccionada($event)"></app-select-tarea>
+      </div>
+    </div>
+
+    <div *ngIf="proyectoActual.id" class="row">
+      <div class="col-xl-4" *ngFor="let horaPTXC of horasPTXC; trackBy: index;">
+        <div class="box box-transparent">
+          <div class="box-header no-padding-h">{{horaPTXC.tarea.nombre}}</div>
+          <div class="box-body no-padding-h">
+
+            <div class="box box-default table-box mdl-shadow--2dp">
+              <table class="mdl-data-table">
+                <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">Cargo</th>
+                  <th matTooltip="Horas Estimadas">Estimación</th>
+                  <th matTooltip="Horas Cargadas">Real</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let hora of getFilas(horaPTXC.horas);">
+                  <td class="mdl-data-table__cell--non-numeric">{{hora.cargo.nombre}}</td>
+                  <td>{{hora.cantidadHorasEstimadas}}</td>
+                  <td>{{hora.cantidadHoras}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr *ngFor="let hora of getTotal(horaPTXC.horas);">
+                  <td class="mdl-data-table__cell--non-numeric">Total</td>
+                  <td>{{hora.cantidadHorasEstimadas}}</td>
+                  <td>{{hora.cantidadHoras}}</td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-6" *ngIf="totales">
+        <div class="box box-transparent">
+          <div class="box-header no-padding-h">Totales</div>
+          <div class="box-body no-padding-h">
+
+            <div class="box box-default table-box mdl-shadow--2dp">
+              <table class="mdl-data-table">
+                <thead>
+                <tr>
+                  <th class="mdl-data-table__cell--non-numeric">Cargo</th>
+                  <th matTooltip="Horas Estimadas">Estimación</th>
+                  <th matTooltip="Precio Estimado">$</th>
+                  <th matTooltip="Horas Cargadas">Real</th>
+                  <th matTooltip="Precio Total Real">$</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let hora of getFilas(totales);">
+                  <td class="mdl-data-table__cell--non-numeric">{{hora.cargo.nombre}}</td>
+                  <td>{{hora.cantidadHorasEstimadas}}</td>
+                  <td>{{hora.precioEstimado}}</td>
+                  <td>{{hora.cantidadHoras}}</td>
+                  <td>{{hora.precioTotal}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr *ngFor="let hora of getTotal(totales);">
+                  <td class="mdl-data-table__cell--non-numeric">Total</td>
+                  <td>{{hora.cantidadHorasEstimadas}}</td>
+                  <td>{{hora.precioEstimado}}</td>
+                  <td>{{hora.cantidadHoras}}</td>
+                  <td>{{hora.precioTotal}}</td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+</section>

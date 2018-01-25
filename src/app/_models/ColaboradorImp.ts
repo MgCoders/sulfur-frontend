@@ -13,8 +13,6 @@ export class ColaboradorImp {
 
     token?: string;
 
-    password: string;
-
     public constructor(x: models.Colaborador) {
         this.id = x.id;
         this.nombre = x.nombre;
@@ -22,6 +20,5 @@ export class ColaboradorImp {
         this.cargo = x.cargo;
         this.role = x.role;
         this.token = x.token;
-        this.password = x.password;
     }
 }

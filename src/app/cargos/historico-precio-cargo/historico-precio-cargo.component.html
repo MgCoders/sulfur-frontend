@@ -1,14 +1,14 @@
 <section class="container-fluid with-maxwidth chapter">
     <article class="article">
       <div class="row">
-        <h2 *ngIf="cargoActual !== undefined" class="article-title padding-top-30 col-12 col-sm-6">Historico de Precios - {{this.cargoActual.nombre}}</h2>
+        <h2 *ngIf="cargoActual !== undefined" class="article-title padding-top-30 col-12 col-sm-6">Historico de Precios - {{cargoActual.nombre}}</h2>
         <div class="article-title padding-top-30 text-left text-sm-right col-12 col-sm-6">
           <button mat-raised-button color="accent" class="btn-w-md" (click)="Nuevo()">Agregar Precio</button>
         </div>
       </div>
   
       <div class="box box-default table-box table-responsive mdl-shadow--2dp">
-        <table class="mdl-data-table">
+        <table *ngIf="cargoActual !== undefined" class="mdl-data-table">
           <thead>
             <tr>
               <th class="mdl-data-table__cell--non-numeric">Fecha de Vigencia</th>
@@ -18,14 +18,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let x of cargoActual.precioHoraHistoria">
-              <td>{{x.id}}</td>
               <td class="mdl-data-table__cell--non-numeric">{{x.vigenciaDesde}}</td>
               <td class="mdl-data-table__cell--non-numeric">{{x.precioHora | number:'1.2'}}</td>
               <td>
-                <button mat-icon-button color="primary" (click)="Editar(x)">
-                  <mat-icon class="material-icons">mode_edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn">
+                <button matTooltipPosition="above" matTooltip="Eliminar Precio" mat-icon-button color="warn">
                   <mat-icon class="material-icons" (click)="Eliminar(x)">delete</mat-icon>
                 </button>
               </td>

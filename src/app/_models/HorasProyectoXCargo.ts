@@ -12,16 +12,11 @@
 
 import * as models from './models';
 
-export interface Colaborador {
-    id?: number;
+export interface HorasProyectoXCargo {
+    cantidadHoras?: number;
 
-    email: string;
-
-    nombre: string;
+    proyecto?: models.Proyecto;
 
     cargo?: models.Cargo;
 
-    role: string;
-
-    token?: string;
 }

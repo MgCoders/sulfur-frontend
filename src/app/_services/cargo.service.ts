@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Cargo } from '../_models/models';
+import { Cargo, PrecioHora } from '../_models/models';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -19,6 +19,10 @@ export class CargoService {
 
   create(x: Cargo): Observable<any> {
     return this.http.post(`${environment.apiUrl}/cargos/`, x);
+  }
+
+  addPrecioHora(idCargo: number, x: PrecioHora): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/cargos/` + idCargo, x);
   }
 
   edit(x: Cargo): Observable<any> {

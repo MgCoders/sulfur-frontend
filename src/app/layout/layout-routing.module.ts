@@ -18,12 +18,7 @@ const routes: Routes = [
       { path: 'colaboradores', loadChildren: '../colaboradores/colaboradores.module#ColaboradoresModule' },
       { path: 'proyectos', loadChildren: '../proyectos/proyectos.module#ProyectosModule' },
       { path: 'horas', loadChildren: '../horas/horas.module#HorasModule' },
-      { path: 'chart', loadChildren: '../charts/charts.module#ChartsModule' },
-      { path: 'form', loadChildren: '../forms/forms.module#MyFormsModule' },
-      { path: 'page', loadChildren: '../pages/pages.module#PagesModule' },
-      { path: 'pglayout', loadChildren: '../page-layouts/page-layouts.module#PageLayoutsModule' },
-      { path: 'table', loadChildren: '../tables/tables.module#MyTablesModule' },
-      { path: 'ui', loadChildren: '../ui/ui.module#UIModule' },
+      { path: 'reportes', loadChildren: '../reportes/reportes.module#ReportesModule' }
     ]
   }
 ];

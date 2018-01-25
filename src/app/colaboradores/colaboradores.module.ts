@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,
+         ReactiveFormsModule,
+} from '@angular/forms';
 import {
   MatIconModule,
   MatButtonModule,
@@ -9,6 +11,7 @@ import {
   MatSelectModule,
   MatTooltipModule,
   MatDialogModule,
+  MatCheckboxModule,
 } from '@angular/material';
 
 import { ListaColaboradoresComponent } from './lista-colaboradores/lista-colaboradores.component';
@@ -27,6 +30,7 @@ import { CargosModule } from '../cargos/cargos.module';
   imports: [
     FormsModule,
     CommonModule,
+    ReactiveFormsModule,
     ColaboradoresRoutingModule,
     MatIconModule,
     MatButtonModule,
@@ -36,6 +40,7 @@ import { CargosModule } from '../cargos/cargos.module';
     MatTooltipModule,
     MatDialogModule,
     CargosModule,
+    MatCheckboxModule,
   ],
 
   declarations: [
