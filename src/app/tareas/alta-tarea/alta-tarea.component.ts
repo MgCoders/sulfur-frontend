@@ -30,6 +30,7 @@ export class AltaTareaComponent implements OnInit {
     this.loading = false;
     if (this.data[0] === undefined) {
       this.tareaActual = {} as TipoTarea;
+      this.tareaActual.enabled = true;
     } else {
       this.tareaActual = new TipoTareaImp(this.data[0]);
     }
