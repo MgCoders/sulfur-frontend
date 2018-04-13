@@ -11,7 +11,7 @@
       <table class="mdl-data-table">
         <thead>
           <tr>
-            <th>#</th>
+            <th *ngIf="showIdColumns">#</th>
             <th class="mdl-data-table__cell--non-numeric">Nombre</th>
             <th class="mdl-data-table__cell--non-numeric">Código</th>
             <th class="mdl-data-table__cell--non-numeric">Colaboradores</th>
@@ -23,7 +23,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let x of lista">
-            <td>{{x.id}}</td>
+            <td *ngIf="showIdColumns">{{x.id}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.nombre}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.codigo}}</td>
             <td class="mdl-data-table__cell--non-numeric">
