@@ -14,6 +14,7 @@ import {
 } from '@angular/router';
 import { CustomDatePipe } from '../../_pipes/customDate.pipe';
 import { environment } from '../../../environments/environment';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-lista-cargos',
@@ -50,7 +51,7 @@ export class ListaCargosComponent implements OnInit {
 
         this.lista = data;
         this.lista.sort((a: Cargo, b: Cargo) => {
-          return a.id - b.id;
+          return new CargoImp(b).ultimoPrecio - new CargoImp(a).ultimoPrecio;
         });
 
         // Cargamos los colaboradores.

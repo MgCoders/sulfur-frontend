@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: 'https://sulfur.magnesium.coop/api',
   hmr: false,
   showLoggs: true,
-  showIdColumns: false,
+  showIdColumns: true,
 };

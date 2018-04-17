@@ -34,7 +34,7 @@
                 <span matTooltipPosition="above" matTooltip="Tooltip!" *ngFor="let y of GetIniciales(x)">dfdf</span> -->
             </td>
             <td>{{GetFechaUltimoPrecio(x)}}</td>
-            <td>{{GetUltimoPrecio(x) | number:'1.2'}}</td>
+            <td>$ {{GetUltimoPrecio(x) | number:'1.0-0'}}</td>
             <td><mat-checkbox [disabled]="true" [(ngModel)]="x.enabled"></mat-checkbox></td>
             <td>
               <a matTooltipPosition="above" matTooltip="Histórico de Precios" mat-icon-button color="secondary" [routerLink]="['/app/cargos/historicoprecio/', x.id]">

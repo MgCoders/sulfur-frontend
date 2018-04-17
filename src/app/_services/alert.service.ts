@@ -27,7 +27,6 @@ export class AlertService {
             errorMg = message;
         }
 
-
         // Si es un error devuelto por el servidor.
 /*         if (message.status !== undefined) {
 

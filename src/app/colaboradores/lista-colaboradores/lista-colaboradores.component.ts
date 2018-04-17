@@ -7,6 +7,7 @@ import { Colaborador } from '../../_models/models';
 import { LayoutService } from '../../layout/layout.service';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { environment } from '../../../environments/environment';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-lista-colaboradores',
@@ -31,9 +32,11 @@ export class ListaColaboradoresComponent implements OnInit {
     this.service.getAll().subscribe(
       (data) => {
         this.lista = data;
-        // tslint:disable-next-line:only-arrow-functions
-        this.lista.sort(function(a, b) {
-          return a.id - b.id;
+
+        this.lista.sort((a: Colaborador, b: Colaborador) => {
+          const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).ultimoPrecio;
+          const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).ultimoPrecio;
+          return prioB - prioA;
         });
         this.layoutService.updatePreloaderState('hide');
       },
