@@ -19,7 +19,7 @@
           <tbody>
             <tr *ngFor="let x of cargoActual.precioHoraHistoria">
               <td class="mdl-data-table__cell--non-numeric">{{x.vigenciaDesde}}</td>
-              <td class="mdl-data-table__cell--non-numeric">{{x.precioHora | number:'1.2'}}</td>
+              <td class="mdl-data-table__cell--non-numeric">$ {{x.precioHora | number:'1.0-0'}}</td>
               <td>
                 <button matTooltipPosition="above" matTooltip="Eliminar Precio" mat-icon-button color="warn">
                   <mat-icon class="material-icons" (click)="Eliminar(x)">delete</mat-icon>

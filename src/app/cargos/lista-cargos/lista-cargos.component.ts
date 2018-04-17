@@ -13,6 +13,8 @@ import {
   Router
 } from '@angular/router';
 import { CustomDatePipe } from '../../_pipes/customDate.pipe';
+import { environment } from '../../../environments/environment';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-lista-cargos',
@@ -25,6 +27,7 @@ export class ListaCargosComponent implements OnInit {
   public colaboradores: Colaborador[];
   public listaColaboradoresPorCargo: Array<{id: number, lista: Array<{iniciales: string, nombre: string}>}>;
   public loading: number = 0;
+  public showIdColumns: boolean;
 
   constructor(public dialog: MatDialog,
               private service: CargoService,
@@ -37,6 +40,7 @@ export class ListaCargosComponent implements OnInit {
   ngOnInit() {
     this.lista = new Array();
     this.listaColaboradoresPorCargo = new Array();
+    this.showIdColumns = environment.showIdColumns;
 
     this.layoutService.updatePreloaderState('active');
     this.service.getAll().subscribe(
@@ -47,7 +51,7 @@ export class ListaCargosComponent implements OnInit {
 
         this.lista = data;
         this.lista.sort((a: Cargo, b: Cargo) => {
-          return a.id - b.id;
+          return new CargoImp(b).ultimoPrecio - new CargoImp(a).ultimoPrecio;
         });
 
         // Cargamos los colaboradores.

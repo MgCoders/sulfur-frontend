@@ -20,4 +20,6 @@ export interface TipoTarea {
     nombre: string;
 
     prioridad: number;
+
+    enabled: boolean;
 }

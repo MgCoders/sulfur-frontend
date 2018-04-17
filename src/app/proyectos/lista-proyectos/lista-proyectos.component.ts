@@ -6,6 +6,7 @@ import { AlertService } from '../../_services/alert.service';
 import { Proyecto } from '../../_models/models';
 import { LayoutService } from '../../layout/layout.service';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-lista-proyectos',
@@ -15,6 +16,7 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 export class ListaProyectosComponent implements OnInit {
 
   public lista: Proyecto[];
+  public showIdColumns: boolean;
 
   constructor(public dialog: MatDialog,
               private service: ProyectoService,
@@ -23,6 +25,7 @@ export class ListaProyectosComponent implements OnInit {
 
   ngOnInit() {
     this.lista = new Array();
+    this.showIdColumns = environment.showIdColumns;
 
     this.layoutService.updatePreloaderState('active');
     this.service.getAll().subscribe(

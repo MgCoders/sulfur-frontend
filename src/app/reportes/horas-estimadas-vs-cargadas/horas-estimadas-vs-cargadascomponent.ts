@@ -48,7 +48,9 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
         this.proyectoActual = {} as Proyecto;
         this.tareaService.getAll().subscribe(
             (data) => {
-                this.tareas = data;
+                this.tareas = data.sort((a: TipoTarea, b: TipoTarea) => {
+                    return b.prioridad - a.prioridad;
+                  });
                 this.EndService();
             },
             (error) => {
@@ -113,10 +115,13 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
                 this.CallService();
                 this.reporteService.getReporte1(this.proyectoActual, tarea).subscribe(
                     (horas) => {
-                        this.horasPTXC.push({ tarea, horas });
-                        this.horasPTXC.sort((a: { tarea, horas }, b: { tarea, horas }) => {
-                            return a.tarea.id - b.tarea.id;
-                        });
+                        if (this.getTotal(horas)[0].cantidadHoras > 0 || this.getTotal(horas)[0].cantidadHorasEstimadas > 0) {
+                            this.horasPTXC.push({ tarea, horas });
+                            this.horasPTXC.sort((a: { tarea, horas }, b: { tarea, horas }) => {
+                                return b.tarea.prioridad - a.tarea.prioridad;
+                            });
+                        }
+
                         this.EndService();
                     },
                     (error) => {
@@ -139,7 +144,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     }
 
     getFilas(horasReporte: HorasReporte1[]) {
-        return horasReporte.filter((item) => item.cargo != null);
+        return horasReporte.filter((item) => item.cargo != null && (item.cargo.enabled || item.cantidadHoras > 0 || item.cantidadHorasEstimadas > 0));
     }
 
     getTotal(horasReporte: HorasReporte1[]) {

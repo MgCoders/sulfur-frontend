@@ -6,6 +6,8 @@ import { AlertService } from '../../_services/alert.service';
 import { Colaborador } from '../../_models/models';
 import { LayoutService } from '../../layout/layout.service';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { environment } from '../../../environments/environment';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-lista-colaboradores',
@@ -15,6 +17,7 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 export class ListaColaboradoresComponent implements OnInit {
 
   public lista: Colaborador[];
+  public showIdColumns: boolean;
 
   constructor(public dialog: MatDialog,
               private service: ColaboradorService,
@@ -23,14 +26,17 @@ export class ListaColaboradoresComponent implements OnInit {
 
   ngOnInit() {
     this.lista = new Array();
+    this.showIdColumns = environment.showIdColumns;
 
     this.layoutService.updatePreloaderState('active');
     this.service.getAll().subscribe(
       (data) => {
         this.lista = data;
-        // tslint:disable-next-line:only-arrow-functions
-        this.lista.sort(function(a, b) {
-          return a.id - b.id;
+
+        this.lista.sort((a: Colaborador, b: Colaborador) => {
+          const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).ultimoPrecio;
+          const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).ultimoPrecio;
+          return prioB - prioA;
         });
         this.layoutService.updatePreloaderState('hide');
       },

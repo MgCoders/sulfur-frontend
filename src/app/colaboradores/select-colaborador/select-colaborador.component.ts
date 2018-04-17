@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ColaboradorService } from '../../_services/colaborador.service';
 import { AlertService } from '../../_services/alert.service';
 import { Colaborador } from '../../_models/models';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-select-colaborador',
@@ -28,6 +29,11 @@ export class SelectColaboradorComponent implements OnInit {
       this.service.getAll().subscribe(
         (data) => {
           this.lista = data.filter((x) => x.enabled);
+          this.lista.sort((a: Colaborador, b: Colaborador) => {
+            const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).ultimoPrecio;
+            const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).ultimoPrecio;
+            return prioB - prioA;
+          });
         },
         (error) => {
           this.as.error(error, 5000);

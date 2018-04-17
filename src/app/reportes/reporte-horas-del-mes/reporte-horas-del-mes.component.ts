@@ -42,6 +42,7 @@ import { ProyectoService } from '../../_services/proyecto.service';
 import { PapaParseService } from 'ngx-papaparse';
 import * as FileSaver from 'file-saver';
 import { HorasReporte1 } from '../../_models/HorasProyectoTipoTareaXCargo';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-reporte-horas-del-mes',
@@ -168,7 +169,9 @@ export class ReporteHorasDelMesComponent implements OnInit {
   }
 
   getFilas(horasReporte: HorasReporte1[]) {
-    return horasReporte.filter((item) => item.cargo != null);
+    return horasReporte.filter((item) => item.cargo != null && (item.cargo.enabled || item.cantidadHoras > 0 || item.cantidadHorasEstimadas > 0)).sort( (a, b) => {
+      return new CargoImp(b.cargo).ultimoPrecio - new CargoImp(a.cargo).ultimoPrecio;
+    });
   }
 
   getTotal(horasReporte: HorasReporte1[]) {

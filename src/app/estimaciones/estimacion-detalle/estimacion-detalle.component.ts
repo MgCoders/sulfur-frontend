@@ -22,6 +22,7 @@ import {
   Validators
 } from '@angular/forms';
 import { CustomDatePipe } from '../../_pipes/customDate.pipe';
+import { CargoImp } from '../../_models/CargoImp';
 
 @Component({
   selector: 'app-estimacion-detalle',
@@ -36,10 +37,10 @@ export class EstimacionDetalleComponent implements OnInit {
   public cargos: Cargo[];
   public tareas: TipoTarea[];
   public estCargo: EstimacionCargo[];
-  public tareasCargos: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl }> }>;
-  public tareasCargosRespaldo: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl }> }>;
-  public horaCargo: Array<{idCargo: number, codigo: string, value: number, FC: FormControl}>;
-  public horaCargoRespaldo: Array<{idCargo: number, codigo: string, value: number, FC: FormControl}>;
+  public tareasCargos: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number }>, PrioridadTarea: number }>;
+  public tareasCargosRespaldo: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number }>, PrioridadTarea: number }>;
+  public horaCargo: Array<{idCargo: number, codigo: string, value: number, FC: FormControl, CostoCargo: number }>;
+  public horaCargoRespaldo: Array<{idCargo: number, codigo: string, value: number, FC: FormControl, CostoCargo: number }>;
   public loading: boolean;
 
   constructor(private service: EstimacionService,
@@ -96,11 +97,23 @@ export class EstimacionDetalleComponent implements OnInit {
         this.estimacionActual.estimacionCargos.forEach((x) => {
           x.estimacionTipoTareas.forEach((y) => {
             if (this.tareasCargos.findIndex((t) => t.idTarea === y.tipoTarea.id) === -1) {
-              this.tareasCargos.push({ idTarea: y.tipoTarea.id, nombreTarea: y.tipoTarea.nombre, cargos: new Array() });
+              this.tareasCargos.push({ idTarea: y.tipoTarea.id, nombreTarea: y.tipoTarea.nombre, cargos: new Array(), PrioridadTarea: y.tipoTarea.prioridad });
             }
-            this.tareasCargos.find((t) => t.idTarea === y.tipoTarea.id).cargos.push({ idCargo: x.cargo.id, nombreCargo: x.cargo.codigo, value: +this.timePipe.transform(y.duracion, ['HH']), FC: new FormControl('', [Validators.required, Validators.min(0)]) });
+            this.tareasCargos.find((t) => t.idTarea === y.tipoTarea.id).cargos.push({ idCargo: x.cargo.id, nombreCargo: x.cargo.codigo, value: +this.timePipe.transform(y.duracion, ['HH']), FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x.cargo).ultimoPrecio });
           });
-          this.horaCargo.push({idCargo: x.cargo.id, codigo: x.cargo.codigo, value: x.precioTotal, FC: new FormControl('', [Validators.required, Validators.min(0)])});
+          this.horaCargo.push({idCargo: x.cargo.id, codigo: x.cargo.codigo, value: x.precioTotal, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x.cargo).ultimoPrecio});
+        });
+
+        this.tareasCargos.forEach((x) => {
+          x.cargos.sort((a: { idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number }, b: { idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number }) => {
+            return b.CostoCargo - a.CostoCargo;
+          });
+        });
+        this.tareasCargos.sort((a: { idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number }>, PrioridadTarea: number }, b: { idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number }>, PrioridadTarea: number }) => {
+          return b.PrioridadTarea - a.PrioridadTarea;
+        });
+        this.horaCargo.sort((a: {idCargo: number, codigo: string, value: number, FC: FormControl, CostoCargo: number }, b: {idCargo: number, codigo: string, value: number, FC: FormControl, CostoCargo: number }) => {
+          return b.CostoCargo - a.CostoCargo;
         });
 
         this.layoutService.updatePreloaderState('hide');
@@ -118,22 +131,22 @@ export class EstimacionDetalleComponent implements OnInit {
     this.tareasCargosRespaldo = this.Copy(this.tareasCargos);
     this.horaCargoRespaldo = this.CopyHoraCargo(this.horaCargo);
     // Si hay que agregar tareas o cargos los agregamos.
-    this.cargos.forEach((x) => {
+    this.cargos.filter((x) => x.enabled).forEach((x) => {
       this.tareasCargos.forEach((y) => {
         if (y.cargos.findIndex((c) => c.idCargo === x.id) === -1) {
-          y.cargos.push({ idCargo: x.id, nombreCargo: x.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]) });
+          y.cargos.push({ idCargo: x.id, nombreCargo: x.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x).ultimoPrecio });
         }
       });
 
       if (this.horaCargo.findIndex((c) => c.idCargo === x.id) === -1) {
-        this.horaCargo.push({codigo: x.codigo, idCargo: x.id, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)])});
+        this.horaCargo.push({codigo: x.codigo, idCargo: x.id, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x).ultimoPrecio });
       }
     });
-    this.tareas.forEach((x) => {
+    this.tareas.filter((x) => x.enabled).forEach((x) => {
       if (this.tareasCargos.findIndex((y) => y.idTarea === x.id) === -1) {
-        this.tareasCargos.push({ idTarea: x.id, nombreTarea: x.nombre, cargos: new Array() });
+        this.tareasCargos.push({ idTarea: x.id, nombreTarea: x.nombre, cargos: new Array(), PrioridadTarea: x.prioridad });
         this.cargos.forEach((c) => {
-          this.tareasCargos.find((y) => y.idTarea === x.id).cargos.push({ idCargo: c.id, nombreCargo: c.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]) });
+          this.tareasCargos.find((y) => y.idTarea === x.id).cargos.push({ idCargo: c.id, nombreCargo: c.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(c).ultimoPrecio });
         });
       }
     });
@@ -190,31 +203,33 @@ export class EstimacionDetalleComponent implements OnInit {
     return result;
   }
 
-  Copy(x: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl }> }>) {
-    const copia: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl }> }> = new Array();
+  Copy(x: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number  }>, PrioridadTarea: number }>) {
+    const copia: Array<{ idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number  }>, PrioridadTarea: number }> = new Array();
     x.forEach((r) => {
-      const aux = {} as { idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl }> };
+      const aux = {} as { idTarea: number, nombreTarea: string, cargos: Array<{ idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number  }>, PrioridadTarea: number };
       aux.cargos = new Array();
       r.cargos.forEach((c) => {
-        const aux2 = {} as { idCargo: number, nombreCargo: string, value: number, FC: FormControl };
+        const aux2 = {} as { idCargo: number, nombreCargo: string, value: number, FC: FormControl, CostoCargo: number  };
         aux2.idCargo = c.idCargo;
         aux2.nombreCargo = c.nombreCargo;
         aux2.value = c.value;
         aux2.FC = c.FC;
+        aux2.CostoCargo = c.CostoCargo;
         aux.cargos.push(aux2);
       });
       aux.idTarea = r.idTarea;
       aux.nombreTarea = r.nombreTarea;
+      aux.PrioridadTarea = r.PrioridadTarea;
       copia.push(aux);
     });
 
     return copia;
   }
 
-  CopyHoraCargo(x: Array<{idCargo: number, codigo: string, value: number, FC: FormControl}>) {
-    const result: Array<{idCargo: number, codigo: string, value: number, FC: FormControl}> = new Array();
+  CopyHoraCargo(x: Array<{idCargo: number, codigo: string, value: number, FC: FormControl, CostoCargo: number}>) {
+    const result: Array<{idCargo: number, codigo: string, value: number, FC: FormControl, CostoCargo: number}> = new Array();
     x.forEach((y) => {
-      result.push({idCargo: y.idCargo, codigo: y.codigo, value: y.value, FC: y.FC});
+      result.push({idCargo: y.idCargo, codigo: y.codigo, value: y.value, FC: y.FC, CostoCargo: y.CostoCargo});
     });
 
     return result;

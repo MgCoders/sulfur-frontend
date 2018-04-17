@@ -28,7 +28,7 @@ export class SelectTareaComponent implements OnInit {
     this.lista = new Array();
     this.service.getAll().subscribe(
       (data) => {
-        this.lista = data;
+        this.lista = data.filter((x) => x.enabled);
         this.lista.sort((a: TipoTarea, b: TipoTarea) => {
           return b.prioridad - a.prioridad;
         });

@@ -6,6 +6,7 @@ import { AlertService } from '../../_services/alert.service';
 import { TipoTarea } from '../../_models/models';
 import { LayoutService } from '../../layout/layout.service';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-lista-tareas',
@@ -15,6 +16,7 @@ import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confi
 export class ListaTareasComponent implements OnInit {
 
   public lista: TipoTarea[];
+  public showIdColumns: boolean;
 
   constructor(public dialog: MatDialog,
               private service: TareaService,
@@ -23,6 +25,7 @@ export class ListaTareasComponent implements OnInit {
 
   ngOnInit() {
     this.lista = new Array();
+    this.showIdColumns = environment.showIdColumns;
 
     this.layoutService.updatePreloaderState('active');
     this.service.getAll().subscribe(

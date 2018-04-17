@@ -12,19 +12,21 @@
       <table class="mdl-data-table">
         <thead>
           <tr>
-            <th>#</th>
+            <th *ngIf="showIdColumns">#</th>
             <th class="mdl-data-table__cell--non-numeric">Descripción</th>
             <th class="mdl-data-table__cell--non-numeric">Código</th>
             <th>Prioridad</th>
+            <th>¿Habilitado?</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let x of lista">
-            <td>{{x.id}}</td>
+            <td *ngIf="showIdColumns">{{x.id}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.nombre}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.codigo}}</td>
             <td>{{x.prioridad}}</td>
+            <td><mat-checkbox [disabled]="true" [(ngModel)]="x.enabled"></mat-checkbox></td>
             <td>
               <button mat-icon-button color="primary" (click)="Editar(x)">
                 <mat-icon class="material-icons">mode_edit</mat-icon>

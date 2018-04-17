@@ -11,7 +11,7 @@
       <table class="mdl-data-table">
         <thead>
           <tr>
-            <th>#</th>
+            <th *ngIf="showIdColumns">#</th>
             <th class="mdl-data-table__cell--non-numeric">Nombre</th>
             <th class="mdl-data-table__cell--non-numeric">Código</th>
             <th class="mdl-data-table__cell--non-numeric">Colaboradores</th>
@@ -23,7 +23,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let x of lista">
-            <td>{{x.id}}</td>
+            <td *ngIf="showIdColumns">{{x.id}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.nombre}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.codigo}}</td>
             <td class="mdl-data-table__cell--non-numeric">
@@ -34,7 +34,7 @@
                 <span matTooltipPosition="above" matTooltip="Tooltip!" *ngFor="let y of GetIniciales(x)">dfdf</span> -->
             </td>
             <td>{{GetFechaUltimoPrecio(x)}}</td>
-            <td>{{GetUltimoPrecio(x) | number:'1.2'}}</td>
+            <td>$ {{GetUltimoPrecio(x) | number:'1.0-0'}}</td>
             <td><mat-checkbox [disabled]="true" [(ngModel)]="x.enabled"></mat-checkbox></td>
             <td>
               <a matTooltipPosition="above" matTooltip="Histórico de Precios" mat-icon-button color="secondary" [routerLink]="['/app/cargos/historicoprecio/', x.id]">

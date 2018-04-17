@@ -6,5 +6,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/api',
-  hmr: false
+  hmr: false,
+  showLoggs: true,
+  showIdColumns: false,
 };
