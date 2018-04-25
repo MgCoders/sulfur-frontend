@@ -9,6 +9,7 @@ import { HistoricoHorasComponent } from './historico-horas/historico-horas.compo
 import { MisHorasComponent } from './mis-horas/mis-horas.component';
 import { ReporteHorasDelMesComponent } from './reporte-horas-del-mes/reporte-horas-del-mes.component';
 import { AdminGuard } from '../_guards/admin.guard';
+import { ResumenEstudioComponent } from './resumen-estudio/resumen-estudio.component';
 
 export const ReportesRoutes: Routes = [
   {
@@ -28,6 +29,11 @@ export const ReportesRoutes: Routes = [
       {
         path: 'historico-horas',
         component: HistoricoHorasComponent,
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'resumen-estudio',
+        component: ResumenEstudioComponent,
         canActivate: [AdminGuard],
       },
       {

@@ -12,12 +12,9 @@
 
 import * as models from './models';
 
-export interface HorasReporte1 {
+export interface HorasReporte2 {
     cantidadHoras?: number;
-    proyecto?: models.Proyecto;
-    tipoTarea?: models.TipoTarea;
     cargo?: models.Cargo;
+    colaborador?: models.Colaborador;
     precioTotal: number;
-    cantidadHorasEstimadas: number;
-    precioEstimado: number;
 }

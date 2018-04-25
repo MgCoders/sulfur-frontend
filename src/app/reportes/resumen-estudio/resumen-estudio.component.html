@@ -1,0 +1,131 @@
+<section class="container-fluid with-maxwidth chapter">
+  <article class="article">
+    <div class="row">
+      <h2 class="article-title col-12 col-sm-7">
+        <span>Colaboradores</span>
+      </h2>
+      <div class="col-12 col-sm-2">
+        <mat-form-field class="full-width">
+          <input [required] [(ngModel)]="fDesde" (dateChange)="Reload()" class="full-width" matInput [matDatepicker]="pickerFDesde" placeholder="Fecha Desde" [formControl]="fDesdeFC">
+          <mat-datepicker-toggle matSuffix [for]="pickerFDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFDesde></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-2">
+        <mat-form-field class="full-width">
+          <input [(ngModel)]="fHasta" (dateChange)="Reload()" class="full-width" matInput [matDatepicker]="pickerFHasta" placeholder="Fecha Hasta" [formControl]="fHastaFC">
+          <mat-datepicker-toggle matSuffix [for]="pickerFHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFHasta></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-sm-1">
+          <button matTooltipPosition="above" matTooltip="Bajar archivo csv con los datos." [disabled]="loading" (click)="Download_CSV()" mat-icon-button color="primary">
+            <mat-icon class="material-icons">file_download</mat-icon>
+          </button>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="porColaborador !== undefined && porColaborador.length > 0 && !loading">
+      <div class="col-xl-6 offset-xl-3 col-md-10 offset-md-1 col-sm-12 col-12">
+        <div class="box box-transparent">
+          <div class="box-body no-padding-h">
+            <div class="box box-default table-box mdl-shadow--2dp table-responsive">
+              <table class="mdl-data-table with-maxwidth">
+                <thead>
+                  <tr>
+                    <th class="text-center" colspan="4">
+                      Resumen de Horas por Colaborador
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="text-left">Colaborador</th>
+                    <th class="text-left">Cargo</th>
+                    <th>Horas</th>
+                    <th>Importe</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let y of porColaborador">
+                    <td class="text-left">{{y.colaborador.nombre}}</td>
+                    <td class="text-left">{{y.cargo.codigo}}</td>
+                    <td class="text-right">
+                      <span>{{y.cantidadHoras | number:'1.0-0'}}</span>
+                    </td>
+                    <td class="text-right">
+                      $ <span>{{y.precioTotal | number:'1.0-0'}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngFor="let y of porColaboradorTotales">
+                    <td colspan="2" class="text-rigth">
+                      <b>TOTALES</b>
+                    </td>
+                    <td class="text-right">
+                      <span>{{y.cantidadHoras | number:'1.0-0'}}</span>
+                    </td>
+                    <td class="text-right">
+                      $ <span>{{y.precioTotal | number:'1.0-0'}}</span>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="listaTabla !== undefined && listaTabla.length > 0 && !loading">
+      <div class="col-xl-8 offset-xl-2 col-md-10 offset-md-1 col-sm-12 col-12">
+        <div class="box box-transparent">
+          <div class="box-body no-padding-h">
+            <div class="box box-default table-box mdl-shadow--2dp table-responsive">
+              <table class="mdl-data-table with-maxwidth">
+                <thead>
+                  <tr>
+                    <th class="text-center" [colSpan]="cantCols">
+                      Resumen de Horas por Proyecto y Cargo
+                    </th>
+                  </tr>
+                  <tr>
+                    <th></th>
+                    <th *ngFor="let c of cargosHeader">{{c.codigo}}</th>
+                    <th>Total Horas</th>
+                    <th>Total Importe</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let y of listaTabla">
+                    <td class="text-left">{{y.proyecto.nombre}}</td>
+                    <td class="text-right" *ngFor="let c of y.porCargo">{{c.horas | number:'1.0-0'}}</td>
+                    <td class="text-right">
+                      <span>{{y.totalHoras | number:'1.0-0'}}</span>
+                    </td>
+                    <td class="text-right">
+                      $ <span>{{y.totalImporte | number:'1.0-0'}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr *ngFor="let y of listaTablaTotales">
+                    <td class="text-rigth">
+                      <b>TOTALES</b>
+                    </td>
+                    <td class="text-right" *ngFor="let c of y.porCargo">{{c.horas | number:'1.0-0'}}</td>
+                    <td class="text-right">
+                      <span>{{y.totalHoras | number:'1.0-0'}}</span>
+                    </td>
+                    <td class="text-right">
+                      $ <span>{{y.totalImporte | number:'1.0-0'}}</span>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

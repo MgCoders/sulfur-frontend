@@ -41,7 +41,8 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MAT_DATE_LOCALE
+    MAT_DATE_LOCALE,
+    DateAdapter
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -93,6 +94,7 @@ import { AlertService } from './_services/alert.service';
 import { NotificacionService } from './_services/notificacion.service';
 import { DatePipe } from '@angular/common';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
+import { CustomDateAdapter } from './_helpers/CustomDateAdapter';
 
 @NgModule({
     imports: [
@@ -171,8 +173,9 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
     ],
     bootstrap: [AppComponent],
     providers: [
-        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
-        //{ provide: LOCALE_ID, useValue: 'es' },
+        { provide: MAT_DATE_LOCALE, useValue: 'es' },
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        // { provide: LOCALE_ID, useValue: 'es' },
         NotificacionService,
         DatePipe,
         AuthService,
@@ -194,7 +197,8 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
 })
 
 export class AppModule {
-    constructor(public appRef: ApplicationRef) {
+    constructor(public appRef: ApplicationRef, private dateAdapter: DateAdapter<Date>) {
+        this.dateAdapter.setLocale('es');
     }
 
     hmrOnInit(store) {

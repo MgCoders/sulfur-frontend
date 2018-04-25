@@ -9,14 +9,14 @@
         </div>
         <div class="col-12 col-sm-2">
           <mat-form-field class="full-width">
-            <input [(ngModel)]="fDesde" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFDesde" placeholder="Fecha Desde">
+            <input [(ngModel)]="fDesde" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFDesde" placeholder="Fecha Desde" [formControl]="fDesdeFC">
             <mat-datepicker-toggle matSuffix [for]="pickerFDesde"></mat-datepicker-toggle>
             <mat-datepicker #pickerFDesde></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="col-12 col-sm-2">
           <mat-form-field class="full-width">
-            <input [(ngModel)]="fHasta" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFHasta" placeholder="Fecha Hasta">
+            <input [(ngModel)]="fHasta" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFHasta" placeholder="Fecha Hasta" [formControl]="fHastaFC">
             <mat-datepicker-toggle matSuffix [for]="pickerFHasta"></mat-datepicker-toggle>
             <mat-datepicker #pickerFHasta></mat-datepicker>
           </mat-form-field>
