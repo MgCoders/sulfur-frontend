@@ -14,8 +14,6 @@ export class CargoImp implements models.Cargo {
 
     enabled: boolean;
 
-    ultimoPrecio: number;
-
     public constructor(x: models.Cargo) {
         this.id = x.id;
         this.nombre = x.nombre;
@@ -33,6 +31,9 @@ export class CargoImp implements models.Cargo {
             const fB: Date = datePipe.transform(b.vigenciaDesde, ['']);
             return fB.getTime() - fA.getTime();
         });
-        this.ultimoPrecio = this.precioHoraHistoria.length > 0 ? this.precioHoraHistoria[0].precioHora : 0;
+    }
+
+    public GetPrecioUltimo() {
+        return this.precioHoraHistoria.length > 0 ? this.precioHoraHistoria[0].precioHora : 0;
     }
 }

@@ -61,6 +61,7 @@ import { HistoricoHorasComponent } from './historico-horas/historico-horas.compo
 import { ColaboradoresModule } from '../colaboradores/colaboradores.module';
 import { ReporteHorasDelMesComponent } from './reporte-horas-del-mes/reporte-horas-del-mes.component';
 import { PapaParseModule } from 'ngx-papaparse';
+import { ResumenEstudioComponent } from './resumen-estudio/resumen-estudio.component';
 
 @NgModule({
     imports: [
@@ -113,6 +114,7 @@ import { PapaParseModule } from 'ngx-papaparse';
         MisHorasComponent,
         HistoricoHorasComponent,
         ReporteHorasDelMesComponent,
+        ResumenEstudioComponent,
     ],
     providers: [
         AlertService,

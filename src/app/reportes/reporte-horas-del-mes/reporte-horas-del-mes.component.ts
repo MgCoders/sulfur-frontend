@@ -64,6 +64,8 @@ export class ReporteHorasDelMesComponent implements OnInit {
   public lista: HorasReporte1[];
   public fDesde: Date;
   public fHasta: Date;
+  public fDesdeFC = new FormControl('', [Validators.required]);
+  public fHastaFC = new FormControl('', [Validators.required]);
 
   constructor(private service: ReporteService,
               private cargoDervice: CargoService,
@@ -135,6 +137,20 @@ export class ReporteHorasDelMesComponent implements OnInit {
   }
 
   Load() {
+    // Hacemos los chequeos.
+    if (this.fDesde === undefined || this.fDesde === null) {
+      this.as.error('Debe ingresar la fecha "Desde".', 5000);
+      return;
+    }
+    if (this.fHasta === undefined || this.fHasta === null) {
+      this.as.error('Debe ingresar la fecha "Hasta".', 5000);
+      return;
+    }
+    if (this.fDesde.getTime() > this.fHasta.getTime()) {
+      this.as.error('La fecha "Desde" debe ser menor o igual que la fecha "Hasta".', 5000);
+      return;
+    }
+
     if (this.proyectoActual === undefined || this.proyectoActual.id === undefined) {
       this.loading++;
       this.layoutService.updatePreloaderState('active');
@@ -169,8 +185,8 @@ export class ReporteHorasDelMesComponent implements OnInit {
   }
 
   getFilas(horasReporte: HorasReporte1[]) {
-    return horasReporte.filter((item) => item.cargo != null && (item.cargo.enabled || item.cantidadHoras > 0 || item.cantidadHorasEstimadas > 0)).sort( (a, b) => {
-      return new CargoImp(b.cargo).ultimoPrecio - new CargoImp(a.cargo).ultimoPrecio;
+    return horasReporte.filter((item) => item.cargo != null && (item.cargo.enabled || item.cantidadHoras > 0 || item.cantidadHorasEstimadas > 0)).sort((a, b) => {
+      return new CargoImp(b.cargo).GetPrecioUltimo() - new CargoImp(a.cargo).GetPrecioUltimo();
     });
   }
 

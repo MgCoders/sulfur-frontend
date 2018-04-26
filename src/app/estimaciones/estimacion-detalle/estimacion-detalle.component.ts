@@ -99,9 +99,9 @@ export class EstimacionDetalleComponent implements OnInit {
             if (this.tareasCargos.findIndex((t) => t.idTarea === y.tipoTarea.id) === -1) {
               this.tareasCargos.push({ idTarea: y.tipoTarea.id, nombreTarea: y.tipoTarea.nombre, cargos: new Array(), PrioridadTarea: y.tipoTarea.prioridad });
             }
-            this.tareasCargos.find((t) => t.idTarea === y.tipoTarea.id).cargos.push({ idCargo: x.cargo.id, nombreCargo: x.cargo.codigo, value: +this.timePipe.transform(y.duracion, ['HH']), FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x.cargo).ultimoPrecio });
+            this.tareasCargos.find((t) => t.idTarea === y.tipoTarea.id).cargos.push({ idCargo: x.cargo.id, nombreCargo: x.cargo.codigo, value: +this.timePipe.transform(y.duracion, ['HH']), FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x.cargo).GetPrecioUltimo() });
           });
-          this.horaCargo.push({idCargo: x.cargo.id, codigo: x.cargo.codigo, value: x.precioTotal, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x.cargo).ultimoPrecio});
+          this.horaCargo.push({idCargo: x.cargo.id, codigo: x.cargo.codigo, value: x.precioTotal, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x.cargo).GetPrecioUltimo()});
         });
 
         this.tareasCargos.forEach((x) => {
@@ -134,19 +134,19 @@ export class EstimacionDetalleComponent implements OnInit {
     this.cargos.filter((x) => x.enabled).forEach((x) => {
       this.tareasCargos.forEach((y) => {
         if (y.cargos.findIndex((c) => c.idCargo === x.id) === -1) {
-          y.cargos.push({ idCargo: x.id, nombreCargo: x.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x).ultimoPrecio });
+          y.cargos.push({ idCargo: x.id, nombreCargo: x.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x).GetPrecioUltimo() });
         }
       });
 
       if (this.horaCargo.findIndex((c) => c.idCargo === x.id) === -1) {
-        this.horaCargo.push({codigo: x.codigo, idCargo: x.id, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x).ultimoPrecio });
+        this.horaCargo.push({codigo: x.codigo, idCargo: x.id, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(x).GetPrecioUltimo() });
       }
     });
     this.tareas.filter((x) => x.enabled).forEach((x) => {
       if (this.tareasCargos.findIndex((y) => y.idTarea === x.id) === -1) {
         this.tareasCargos.push({ idTarea: x.id, nombreTarea: x.nombre, cargos: new Array(), PrioridadTarea: x.prioridad });
         this.cargos.forEach((c) => {
-          this.tareasCargos.find((y) => y.idTarea === x.id).cargos.push({ idCargo: c.id, nombreCargo: c.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(c).ultimoPrecio });
+          this.tareasCargos.find((y) => y.idTarea === x.id).cargos.push({ idCargo: c.id, nombreCargo: c.codigo, value: 0, FC: new FormControl('', [Validators.required, Validators.min(0)]), CostoCargo: new CargoImp(c).GetPrecioUltimo() });
         });
       }
     });

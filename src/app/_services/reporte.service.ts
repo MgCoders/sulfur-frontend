@@ -9,6 +9,7 @@ import { EstimacionProyectoTipoTareaXCargo } from '../_models/EstimacionProyecto
 import { HorasProyectoXCargo } from '../_models/HorasProyectoXCargo';
 import { TipoTarea } from '../_models/TipoTarea';
 import { DatePipe } from '@angular/common';
+import { HorasReporte2 } from '../_models/HorasColaboradorXCargo';
 
 @Injectable()
 export class ReporteService {
@@ -45,5 +46,15 @@ export class ReporteService {
     return this.http.get<HorasReporte1[]>(`${environment.apiUrl}/reportes/horas/fechas/` +
       this.datePipe.transform(desde, 'dd-MM-yyyy') + `/` + this.datePipe.transform(hasta, 'dd-MM-yyyy') +
       `/proyecto/` + idProyecto.toString());
+  }
+
+  getResumenHoras_x_colaborador(desde: Date, hasta: Date): Observable<HorasReporte2[]> {
+    return this.http.get<HorasReporte2[]>(`${environment.apiUrl}/reportes/horas/colaboradores/fechas/` +
+      this.datePipe.transform(desde, 'dd-MM-yyyy') + `/` + this.datePipe.transform(hasta, 'dd-MM-yyyy'));
+  }
+
+  getResumenHoras_x_Cargo_Proyecto(desde: Date, hasta: Date): Observable<HorasReporte1[]> {
+    return this.http.get<HorasReporte1[]>(`${environment.apiUrl}/reportes/horas/proyectos/fechas/` +
+      this.datePipe.transform(desde, 'dd-MM-yyyy') + `/` + this.datePipe.transform(hasta, 'dd-MM-yyyy'));
   }
 }

@@ -34,8 +34,8 @@ export class ListaColaboradoresComponent implements OnInit {
         this.lista = data;
 
         this.lista.sort((a: Colaborador, b: Colaborador) => {
-          const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).ultimoPrecio;
-          const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).ultimoPrecio;
+          const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).GetPrecioUltimo();
+          const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).GetPrecioUltimo();
           return prioB - prioA;
         });
         this.layoutService.updatePreloaderState('hide');

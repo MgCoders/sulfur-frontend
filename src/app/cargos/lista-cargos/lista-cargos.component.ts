@@ -51,7 +51,7 @@ export class ListaCargosComponent implements OnInit {
 
         this.lista = data;
         this.lista.sort((a: Cargo, b: Cargo) => {
-          return new CargoImp(b).ultimoPrecio - new CargoImp(a).ultimoPrecio;
+          return new CargoImp(b).GetPrecioUltimo() - new CargoImp(a).GetPrecioUltimo();
         });
 
         // Cargamos los colaboradores.
