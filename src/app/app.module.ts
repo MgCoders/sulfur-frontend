@@ -173,9 +173,9 @@ import { CustomDateAdapter } from './_helpers/CustomDateAdapter';
     ],
     bootstrap: [AppComponent],
     providers: [
-        { provide: MAT_DATE_LOCALE, useValue: 'es' },
+        { provide: MAT_DATE_LOCALE, useValue: 'es_UY' },
         { provide: DateAdapter, useClass: CustomDateAdapter },
-        // { provide: LOCALE_ID, useValue: 'es' },
+        { provide: LOCALE_ID, useValue: 'es_UY' },
         NotificacionService,
         DatePipe,
         AuthService,

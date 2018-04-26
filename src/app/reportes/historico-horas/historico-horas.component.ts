@@ -50,6 +50,8 @@ export class HistoricoHorasComponent implements OnInit {
   public total: number;
   public colaboradorActual: Colaborador;
   public loading: boolean;
+  public fDesdeFC = new FormControl('', [Validators.required]);
+  public fHastaFC = new FormControl('', [Validators.required]);
 
   constructor(private service: HoraService,
               private as: AlertService,
@@ -83,11 +85,11 @@ export class HistoricoHorasComponent implements OnInit {
 
   public Reload() {
     // Hacemos los chequeos.
-    if (this.fDesde === undefined) {
+    if (this.fDesde === undefined || this.fDesde === null) {
       this.as.error('Debe ingresar la fecha "Desde".', 5000);
       return;
     }
-    if (this.fHasta === undefined) {
+    if (this.fHasta === undefined || this.fHasta === null) {
       this.as.error('Debe ingresar la fecha "Hasta".', 5000);
       return;
     }

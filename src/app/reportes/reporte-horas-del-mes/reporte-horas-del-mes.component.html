@@ -51,14 +51,14 @@
                 </mat-chip-list>
               </td>
               <td>{{x.cantidadHoras | number:'1.0-0'}}</td>
-              <td>{{x.precioTotal | number:'1.0-0'}}</td>
+              <td>$ {{x.precioTotal | number:'1.0-0'}}</td>
             </tr>
           </tbody>
           <tfoot>
             <tr *ngFor="let x of getTotal(lista)">
               <td colspan="4" class="text-rigth"><b>TOTALES</b></td>
               <td class="text-rigth"><b>{{x.cantidadHoras | number:'1.0-0'}}</b></td>
-              <td class="text-rigth"><b>{{x.precioTotal | number:'1.0-0'}}</b></td>
+              <td class="text-rigth"><b>$ {{x.precioTotal | number:'1.0-0'}}</b></td>
             </tr>
           </tfoot>
         </table>

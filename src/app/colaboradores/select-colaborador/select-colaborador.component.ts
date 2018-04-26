@@ -30,8 +30,8 @@ export class SelectColaboradorComponent implements OnInit {
         (data) => {
           this.lista = data.filter((x) => x.enabled);
           this.lista.sort((a: Colaborador, b: Colaborador) => {
-            const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).ultimoPrecio;
-            const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).ultimoPrecio;
+            const prioB = b.cargo === undefined ? 0 : new CargoImp(b.cargo).GetPrecioUltimo();
+            const prioA = a.cargo === undefined ? 0 : new CargoImp(a.cargo).GetPrecioUltimo();
             return prioB - prioA;
           });
         },

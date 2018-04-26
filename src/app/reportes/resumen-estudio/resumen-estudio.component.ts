@@ -56,8 +56,8 @@ export class ResumenEstudioComponent implements OnInit {
   public porColaborador: HorasReporte2[];
   public porColaboradorTotales: HorasReporte2[];
   public lista: HorasReporte1[];
-  public listaTabla: Array<{proyecto: Proyecto, porCargo: Array<{cargo: Cargo, horas: number}>, totalHoras: number, totalImporte: number}>;
-  public listaTablaTotales: Array<{proyecto: Proyecto, porCargo: Array<{cargo: Cargo, horas: number}>, totalHoras: number, totalImporte: number}>;
+  public listaTabla: Array<{ proyecto: Proyecto, porCargo: Array<{ cargo: Cargo, horas: number }>, totalHoras: number, totalImporte: number }>;
+  public listaTablaTotales: Array<{ proyecto: Proyecto, porCargo: Array<{ cargo: Cargo, horas: number }>, totalHoras: number, totalImporte: number }>;
   public loading: boolean;
   public fDesdeFC = new FormControl('', [Validators.required]);
   public fHastaFC = new FormControl('', [Validators.required]);
@@ -133,24 +133,26 @@ export class ResumenEstudioComponent implements OnInit {
               (dataCargo) => {
                 this.cargos = dataCargo;
                 this.cargos.sort((x, y) => {
-                  return new CargoImp(y).ultimoPrecio - new CargoImp(x).ultimoPrecio;
+                  return new CargoImp(y).GetPrecioUltimo() - new CargoImp(x).GetPrecioUltimo();
                 });
-                this.cantCols = 3 + this.cargos.length;
 
+                this.listaTabla = new Array();
+                this.listaTablaTotales = new Array();
+                this.cargosHeader = new Array();
                 // Luego de tener toda la informacion cargada generamos la tabla.
                 this.lista.filter((x) => x.cargo !== undefined && x.proyecto !== undefined).forEach((x) => {
                   const indice: number = this.listaTabla.findIndex((y) => y.proyecto.id === x.proyecto.id);
                   if (indice === -1) {
-                    const linea = {} as {proyecto: Proyecto, porCargo: Array<{cargo: Cargo, horas: number}>, totalHoras: number, totalImporte: number};
+                    const linea = {} as { proyecto: Proyecto, porCargo: Array<{ cargo: Cargo, horas: number }>, totalHoras: number, totalImporte: number };
                     linea.totalHoras = 0;
                     linea.totalImporte = 0;
                     linea.proyecto = x.proyecto;
                     linea.porCargo = new Array();
                     this.cargos.forEach((c) => {
-                      linea.porCargo.push({cargo: c, horas: 0});
+                      linea.porCargo.push({ cargo: c, horas: 0 });
                     });
                     linea.porCargo.sort((h, j) => {
-                      return new CargoImp(j.cargo).ultimoPrecio - new CargoImp(h.cargo).ultimoPrecio;
+                      return new CargoImp(j.cargo).GetPrecioUltimo() - new CargoImp(h.cargo).GetPrecioUltimo();
                     });
                     linea.porCargo.find((c) => c.cargo.id === x.cargo.id).horas = x.cantidadHoras;
                     linea.totalHoras += x.cantidadHoras;
@@ -167,16 +169,16 @@ export class ResumenEstudioComponent implements OnInit {
                 });
 
                 // La linea de totales.
-                const linea2 = {} as {proyecto: Proyecto, porCargo: Array<{cargo: Cargo, horas: number}>, totalHoras: number, totalImporte: number};
+                const linea2 = {} as { proyecto: Proyecto, porCargo: Array<{ cargo: Cargo, horas: number }>, totalHoras: number, totalImporte: number };
                 linea2.totalHoras = 0;
                 linea2.totalImporte = 0;
                 linea2.proyecto = undefined;
                 linea2.porCargo = new Array();
                 this.cargos.forEach((c) => {
-                  linea2.porCargo.push({cargo: c, horas: 0});
+                  linea2.porCargo.push({ cargo: c, horas: 0 });
                 });
                 linea2.porCargo.sort((h, j) => {
-                  return new CargoImp(j.cargo).ultimoPrecio - new CargoImp(h.cargo).ultimoPrecio;
+                  return new CargoImp(j.cargo).GetPrecioUltimo() - new CargoImp(h.cargo).GetPrecioUltimo();
                 });
                 this.lista.filter((x) => x.cargo !== undefined && x.proyecto === undefined).forEach((x) => {
                   linea2.porCargo.find((t) => t.cargo.id === x.cargo.id).horas += x.cantidadHoras;
@@ -187,17 +189,23 @@ export class ResumenEstudioComponent implements OnInit {
 
                 // Limpiamos las columnas de cargos que no tengan horas y no esten enable.
                 this.cargos.forEach((x) => {
-                  if (!x.enabled && this.listaTablaTotales[0].porCargo.find((y) => y.cargo.id === x.id).horas <= 0) {
+                  if (!x.enabled &&
+                      this.listaTablaTotales[0].porCargo.findIndex((y) => y.cargo.id === x.id) !== -1 &&
+                      this.listaTablaTotales[0].porCargo.find((y) => y.cargo.id === x.id).horas <= 0) {
+
                     this.listaTabla.forEach((p) => {
                       p.porCargo = p.porCargo.filter((c) => c.cargo.id !== x.id);
                     });
                     this.listaTablaTotales.forEach((p) => {
                       p.porCargo = p.porCargo.filter((c) => c.cargo.id !== x.id);
                     });
+
                   } else {
                     this.cargosHeader.push(x);
                   }
                 });
+
+                this.cantCols = 3 + this.cargosHeader.length;
 
                 this.layoutService.updatePreloaderState('hide');
                 this.loading = false;
@@ -242,10 +250,10 @@ export class ResumenEstudioComponent implements OnInit {
     const nombre: string = 'Resumen_Estudio_Por_Colaborador_' +
       this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
       this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
-    const detalle: Array<{NombreColaborador: string, Cargo: string, Horas: number, Importe: number}> = new Array();
+    const detalle: Array<{ NombreColaborador: string, Cargo: string, Horas: number, Importe: number }> = new Array();
     this.porColaborador.forEach((x) => {
-        detalle.push({NombreColaborador: x.colaborador.nombre, Cargo: x.cargo.codigo, Horas: x.cantidadHoras, Importe: x.precioTotal});
-      });
+      detalle.push({ NombreColaborador: x.colaborador.nombre, Cargo: x.cargo.codigo, Horas: x.cantidadHoras, Importe: x.precioTotal });
+    });
     const blob = new Blob([this.papa.unparse(detalle)]);
     FileSaver.saveAs(blob, nombre);
 

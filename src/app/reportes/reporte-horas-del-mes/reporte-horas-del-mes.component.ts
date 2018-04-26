@@ -186,7 +186,7 @@ export class ReporteHorasDelMesComponent implements OnInit {
 
   getFilas(horasReporte: HorasReporte1[]) {
     return horasReporte.filter((item) => item.cargo != null && (item.cargo.enabled || item.cantidadHoras > 0 || item.cantidadHorasEstimadas > 0)).sort((a, b) => {
-      return new CargoImp(b.cargo).ultimoPrecio - new CargoImp(a.cargo).ultimoPrecio;
+      return new CargoImp(b.cargo).GetPrecioUltimo() - new CargoImp(a.cargo).GetPrecioUltimo();
     });
   }
 
