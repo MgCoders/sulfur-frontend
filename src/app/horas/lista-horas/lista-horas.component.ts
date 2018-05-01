@@ -297,17 +297,24 @@ export class ListaHorasComponent implements OnInit {
 
   Eliminar(x: Hora) {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
-      data: '¿Está seguro que desea eliminar la hora ' + x.id + '?',
+      data: '¿Está seguro que desea eliminar la hora del día ' + x.dia + '?',
     });
 
     dialogRef.afterClosed().subscribe(
       (result) => {
         if (result) {
-          // TODO LLamar al servicio.
-          // TODO Ver que hacer si es el registro actual.
-          // this.listaHoras.splice(this.listaHoras.indexOf(x), 1);
-          // this.OrdenarLista2();
-          // this.as.success('Hora eliminada correctamente.', 3000);
+          this.layoutService.updatePreloaderState('active');
+          this.service.delete(x).subscribe(
+            (data) => {
+              this.as.success('Hora eliminada correctamente.', 5000);
+              this.layoutService.updatePreloaderState('hide');
+              this.LoadHoras(true, true, true);
+            },
+            (error) => {
+              this.layoutService.updatePreloaderState('hide');
+              this.as.error(error, 5000);
+            }
+          );
         }
       });
   }

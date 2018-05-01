@@ -230,7 +230,7 @@
                 (click)="Editar(x)">
                 <mat-icon class="material-icons">mode_edit</mat-icon>
               </button>
-              <button matTooltipPosition="above" matTooltip="Eliminar Día." mat-icon-button color="warn">
+              <button *ngIf="isUserAdmin" matTooltipPosition="above" matTooltip="Eliminar Día." mat-icon-button color="warn">
                 <mat-icon class="material-icons" (click)="Eliminar(x)">delete</mat-icon>
               </button>
             </td>

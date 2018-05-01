@@ -32,4 +32,8 @@ export class HoraService {
   edit(x: Hora): Observable<any> {
     return this.http.put(`${environment.apiUrl}/horas/` + x.id, x);
   }
+
+  delete(x: Hora): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/horas/` + x.id);
+  }
 }
