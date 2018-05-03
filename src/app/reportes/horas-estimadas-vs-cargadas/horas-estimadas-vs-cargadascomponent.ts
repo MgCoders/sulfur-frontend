@@ -172,7 +172,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
                 detalle.push({Tarea: x.tarea.nombre, Cargo: y.cargo.nombre, Horas_Estimadas: y.cantidadHorasEstimadas, Horas_Cargadas: y.cantidadHoras});
             });
         });
-        const blob = new Blob([this.papa.unparse(detalle)]);
+        const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
         FileSaver.saveAs(blob, nombre);
 
         // Generamos el archivo con el resumen de la comparacion de horas cargadas vs. estimadas.
@@ -181,7 +181,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
         this.getFilas(this.totales).forEach((x) => {
             resumen.push({Cargo: x.cargo.nombre, Horas_Estimadas: x.cantidadHorasEstimadas, Costo_Estimado: x.precioEstimado, Horas_Cargadas: x.cantidadHoras, Costo_Real: x.precioTotal});
         });
-        const blob2 = new Blob([this.papa.unparse(resumen)]);
+        const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
         FileSaver.saveAs(blob2, nombre2);
     }
 }

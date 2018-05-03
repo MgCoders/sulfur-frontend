@@ -480,6 +480,19 @@ export class ListaHorasComponent implements OnInit {
     return horas + ' hs. ' + minutos + ' min.';
   }
 
+  GetSaldo() {
+    let minutosTotalesCargados: number = 0;
+    this.horaActual.horaDetalleList.forEach((x) => {
+      minutosTotalesCargados += this.timePipe.transform(x.duracion, ['minutos']);
+    });
+
+    const saldo: number = this.timePipe.transform(this.horaActual.subtotal, ['minutos']) - minutosTotalesCargados;
+
+    const horas = Math.trunc((saldo) / 60);
+    const minutos = (saldo) - Math.trunc((saldo) / 60) * 60;
+    return horas + ' hs. ' + minutos + ' min.';
+  }
+
   Cancelar() {
     this.editandoHora = false;
   }

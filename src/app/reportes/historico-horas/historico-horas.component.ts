@@ -160,7 +160,7 @@ export class HistoricoHorasComponent implements OnInit {
     this.lista.forEach((x) => {
         detalle.push({Dia: x.dia, Hora_Entrada: x.horaIn, Hora_Salida: x.horaOut, Tiempo_Total: this.timePipe.transform(x.subtotal, ['HH:mm']), Horas_Cargadas: this.timePipe.transform(x.subtotalDetalles, ['HH:mm']), Status: (x.completa ? 'Ok' : 'Error')});
       });
-    const blob = new Blob([this.papa.unparse(detalle)]);
+    const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
     FileSaver.saveAs(blob, nombre);
 
     // Generamos el archivo con el resumen del historico de horas.
@@ -171,7 +171,7 @@ export class HistoricoHorasComponent implements OnInit {
     this.listaTotales.forEach((x) => {
       resumen.push({Proyecto: x.proyectoNombre, Horas: this.GetMinutosToString2(x.minutos)});
     });
-    const blob2 = new Blob([this.papa.unparse(resumen)]);
+    const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);
   }
 }

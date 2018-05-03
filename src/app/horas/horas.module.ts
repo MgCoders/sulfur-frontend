@@ -18,6 +18,7 @@ import {
   MatTooltipModule,
   MatDialogModule,
   MatCardModule,
+  MatChipsModule
 } from '@angular/material';
 
 import { HorasComponent } from './horas.component';
@@ -58,7 +59,8 @@ import { PipesModule } from '../_pipes/pipes.module';
     MatDialogModule,
     MatSliderModule,
     MatCardModule,
-    PipesModule
+    PipesModule,
+    MatChipsModule
   ],
 
   declarations: [

@@ -91,7 +91,7 @@
           <div class="col-12 col-sm-2">
             <span *ngIf="horaActual !== undefined && horaActual.dia !== undefined && horaActual.subtotal !== undefined">
               <b>{{ horaActual.dia }}</b>
-              <br/> {{horaActual.subtotal | myTimePipe:'HH hs. mm min.'}}
+              <br/> {{horaActual.subtotal | myTimePipe:'HH hs. mm min.'}} <mat-chip color="warn"><b>Dif. {{GetSaldo()}}</b></mat-chip>
             </span>
             <button (click)="EditarHora()" mat-icon-button color="primary">
               <mat-icon class="material-icons">mode_edit</mat-icon>

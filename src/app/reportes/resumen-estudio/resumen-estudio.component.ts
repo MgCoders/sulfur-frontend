@@ -254,7 +254,7 @@ export class ResumenEstudioComponent implements OnInit {
     this.porColaborador.forEach((x) => {
       detalle.push({ NombreColaborador: x.colaborador.nombre, Cargo: x.cargo.codigo, Horas: x.cantidadHoras, Importe: x.precioTotal });
     });
-    const blob = new Blob([this.papa.unparse(detalle)]);
+    const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
     FileSaver.saveAs(blob, nombre);
 
     // Generamos el archivo con el resumen del historico de horas.
@@ -272,7 +272,7 @@ export class ResumenEstudioComponent implements OnInit {
       aux['TotalImporteProyecto'] = x.totalImporte;
       resumen.push(aux);
     });
-    const blob2 = new Blob([this.papa.unparse(resumen)]);
+    const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);
   }
 }
