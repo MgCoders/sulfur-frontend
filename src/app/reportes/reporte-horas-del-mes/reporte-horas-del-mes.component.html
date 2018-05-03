@@ -35,7 +35,6 @@
               <th>#</th>
               <th class="text-left">Nombre</th>
               <th class="text-left">Código</th>
-              <th class="text-left">Colaboradores</th>
               <th>Cantidad Horas</th>
               <th>Importe Total</th>
             </tr>
@@ -45,18 +44,13 @@
               <td>{{x.cargo.id}}</td>
               <td class="text-left">{{x.cargo.nombre}}</td>
               <td class="text-left">{{x.cargo.codigo}}</td>
-              <td class="text-left">
-                <mat-chip-list>
-                  <mat-chip matTooltipPosition="above" [matTooltip]="y.nombre" *ngFor="let y of GetInicialesAux(x.cargo.id)"><b>{{y.iniciales}}</b></mat-chip>
-                </mat-chip-list>
-              </td>
               <td>{{x.cantidadHoras | number:'1.0-0'}}</td>
               <td>$ {{x.precioTotal | number:'1.0-0'}}</td>
             </tr>
           </tbody>
           <tfoot>
             <tr *ngFor="let x of getTotal(lista)">
-              <td colspan="4" class="text-rigth"><b>TOTALES</b></td>
+              <td colspan="3" class="text-rigth"><b>TOTALES</b></td>
               <td class="text-rigth"><b>{{x.cantidadHoras | number:'1.0-0'}}</b></td>
               <td class="text-rigth"><b>$ {{x.precioTotal | number:'1.0-0'}}</b></td>
             </tr>

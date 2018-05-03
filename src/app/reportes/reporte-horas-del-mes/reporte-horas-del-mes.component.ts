@@ -239,17 +239,13 @@ export class ReporteHorasDelMesComponent implements OnInit {
   public Download_CSV() {
     // Generamos el archivo con el detalle de la comparacion de horas cargadas vs. estimadas.
     const nombre: string = 'Horas_Reales_Resumen_y_Costos_' + (this.proyectoActual.nombre === undefined ? 'TODOS' : this.proyectoActual.nombre.replace(' ', '_')) + '.csv';
-    const detalle: Array<{ Cargo: string, Codigo: string, Colaboradores: string, Horas_Cargadas: number, Importe_Total: number }> = new Array();
+    const detalle: Array<{ Cargo: string, Codigo: string, Horas_Cargadas: number, Importe_Total: number }> = new Array();
     this.lista.forEach((x) => {
       if (x.cargo !== undefined) {
-        let colaboradores: string = '';
-        this.GetInicialesAux(x.cargo.id).forEach((y) => {
-          colaboradores += y.iniciales + ' | ';
-        });
-        detalle.push({ Cargo: x.cargo.nombre, Codigo: x.cargo.codigo, Colaboradores: colaboradores, Horas_Cargadas: x.cantidadHoras, Importe_Total: x.precioTotal });
+        detalle.push({ Cargo: x.cargo.nombre, Codigo: x.cargo.codigo, Horas_Cargadas: x.cantidadHoras, Importe_Total: x.precioTotal });
       }
     });
-    const blob = new Blob([this.papa.unparse(detalle)]);
+    const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
     FileSaver.saveAs(blob, nombre);
   }
 }
