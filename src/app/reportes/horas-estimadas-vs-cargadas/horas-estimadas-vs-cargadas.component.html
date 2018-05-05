@@ -7,7 +7,7 @@
       <div class="col-12 col-sm-3">
         <app-select-proyecto [object]="proyectoActual" idModel="id" placeHolder="PROYECTOS" id="id" desc="nombre" (onChange)="proyectoSeleccionado($event)"></app-select-proyecto>
       </div>
-      <div class="col-12 col-sm-1">
+      <div class="col-12 col-sm-1 full-width text-sm-right text-left">
         <button matTooltipPosition="above" matTooltip="Bajar archivo csv con los datos." [disabled]="loading > 0" (click)="Download_CSV()" mat-icon-button color="primary">
           <mat-icon class="material-icons">file_download</mat-icon>
         </button>

@@ -73,12 +73,7 @@ export class HistoricoHorasComponent implements OnInit {
     this.loading = false;
 
     this.fDesde = new Date();
-    if (this.fDesde.getMonth() === 0) {
-      this.fDesde.setMonth(11);
-      this.fDesde.setFullYear(this.fDesde.getFullYear() - 1);
-    } else {
-      this.fDesde.setMonth(this.fDesde.getMonth() - 1);
-    }
+    this.fDesde.setDate(1);
 
     this.Reload();
   }
@@ -173,5 +168,35 @@ export class HistoricoHorasComponent implements OnInit {
     });
     const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);
+  }
+
+  MesAnterior() {
+    const newFDesde = new Date();
+    const newFHasta = new Date();
+
+    if (this.fDesde.getMonth() === 0) {
+      newFDesde.setFullYear(this.fDesde.getFullYear() - 1);
+      newFDesde.setMonth(11);
+      newFDesde.setDate(1);
+    } else {
+      newFDesde.setFullYear(this.fDesde.getFullYear());
+      newFDesde.setMonth(this.fDesde.getMonth() - 1);
+      newFDesde.setDate(1);
+    }
+
+    if (this.fHasta.getMonth() === 0) {
+      newFHasta.setFullYear(this.fHasta.getFullYear() - 1);
+      newFHasta.setMonth(11);
+      newFHasta.setDate(new Date(this.fHasta.getFullYear(), this.fHasta.getMonth(), 0).getDate());
+    } else {
+      newFHasta.setFullYear(this.fHasta.getFullYear());
+      newFHasta.setMonth(this.fHasta.getMonth() - 1);
+      newFHasta.setDate(new Date(this.fHasta.getFullYear(), this.fHasta.getMonth(), 0).getDate());
+    }
+
+    this.fDesde = newFDesde;
+    this.fHasta = newFHasta;
+
+    this.Reload();
   }
 }

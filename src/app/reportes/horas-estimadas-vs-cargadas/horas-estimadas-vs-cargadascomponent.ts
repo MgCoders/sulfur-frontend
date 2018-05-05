@@ -166,10 +166,10 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     public Download_CSV() {
         // Generamos el archivo con el detalle de la comparacion de horas cargadas vs. estimadas.
         const nombre: string = 'Estimadas_Vs_Reales_Detalle_' + this.proyectoActual.nombre.replace(' ', '_') + '.csv';
-        const detalle: Array<{Tarea: string, Cargo: string, Horas_Estimadas: number, Horas_Cargadas: number}> = new Array();
+        const detalle: Array<{Tarea: string, Cargo: string, Horas_Estimadas: string, Horas_Cargadas: string}> = new Array();
         this.horasPTXC.forEach((x) => {
             this.getFilas(x.horas).forEach((y) => {
-                detalle.push({Tarea: x.tarea.nombre, Cargo: y.cargo.nombre, Horas_Estimadas: y.cantidadHorasEstimadas, Horas_Cargadas: y.cantidadHoras});
+                detalle.push({Tarea: x.tarea.nombre, Cargo: y.cargo.nombre, Horas_Estimadas: y.cantidadHorasEstimadas.toString().replace('.', ','), Horas_Cargadas: y.cantidadHoras.toString().replace('.', ',')});
             });
         });
         const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
@@ -177,9 +177,9 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
 
         // Generamos el archivo con el resumen de la comparacion de horas cargadas vs. estimadas.
         const nombre2: string = 'Estimadas_Vs_Reale_Resumen_' + this.proyectoActual.nombre.replace(' ', '_') + '.csv';
-        const resumen: Array<{Cargo: string, Horas_Estimadas: number, Costo_Estimado: number, Horas_Cargadas: number, Costo_Real: number}> = new Array();
+        const resumen: Array<{Cargo: string, Horas_Estimadas: string, Costo_Estimado: string, Horas_Cargadas: string, Costo_Real: string}> = new Array();
         this.getFilas(this.totales).forEach((x) => {
-            resumen.push({Cargo: x.cargo.nombre, Horas_Estimadas: x.cantidadHorasEstimadas, Costo_Estimado: x.precioEstimado, Horas_Cargadas: x.cantidadHoras, Costo_Real: x.precioTotal});
+            resumen.push({Cargo: x.cargo.nombre, Horas_Estimadas: x.cantidadHorasEstimadas.toString().replace('.', ','), Costo_Estimado: x.precioEstimado.toString().replace('.', ','), Horas_Cargadas: x.cantidadHoras.toString().replace('.', ','), Costo_Real: x.precioTotal.toString().replace('.', ',') });
         });
         const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
         FileSaver.saveAs(blob2, nombre2);

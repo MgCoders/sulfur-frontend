@@ -1,7 +1,7 @@
 <section class="container-fluid with-maxwidth chapter">
   <article class="article">
     <div class="row">
-      <h2 class="article-title col-12 col-sm-5">
+      <h2 class="article-title col-12 col-sm-4">
         <span>Colaboradores</span>
       </h2>
       <div class="col-12 col-sm-2">
@@ -22,7 +22,12 @@
           <mat-datepicker #pickerFHasta></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-12 col-sm-1">
+      <div class="col-6 col-sm-1 full-width text-sm-right text-left">
+        <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading" (click)="MesAnterior()" mat-icon-button color="warn">
+          <mat-icon class="material-icons">replay</mat-icon>
+        </button>
+      </div>
+      <div class="col-6 col-sm-1 full-width text-sm-right text-left">
           <button matTooltipPosition="above" matTooltip="Bajar archivo csv con los datos." [disabled]="loading" (click)="Download_CSV()" mat-icon-button color="primary">
             <mat-icon class="material-icons">file_download</mat-icon>
           </button>
