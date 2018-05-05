@@ -16,7 +16,7 @@ function makeAppConfig() {
     theme: 'light',                   // light, gray, dark
     colorOption: '21',                // 11,12,13,14,15,16; 21,22,23,24,25,26; 31,32,33,34,35,36
     AutoCloseMobileNav: true,         // true, false. Automatically close sidenav on route change (Mobile only)
-    productLink: 'https://themeforest.net/item/material-design-angular-2-admin-web-app-with-bootstrap-4/19421267'
+    productLink: 'http://magnesium.coop'
   };
 
   return AppConfig;
