@@ -26,6 +26,7 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
+import { environment } from '../../../environments/environment';
 
 import {
   FormControl,
@@ -66,6 +67,7 @@ export class ReporteHorasDelMesComponent implements OnInit {
   public fHasta: Date;
   public fDesdeFC = new FormControl('', [Validators.required]);
   public fHastaFC = new FormControl('', [Validators.required]);
+  public showIdColumns: boolean;
 
   constructor(private service: ReporteService,
               private cargoDervice: CargoService,
@@ -89,6 +91,7 @@ export class ReporteHorasDelMesComponent implements OnInit {
     this.fHasta = new Date();
     this.fDesde = new Date();
     this.fDesde.setDate(1);
+    this.showIdColumns = environment.showIdColumns;
 
     this.loading++;
     this.layoutService.updatePreloaderState('active');

@@ -37,7 +37,7 @@
         <table class="mdl-data-table" *ngIf="loading === 0">
           <thead>
             <tr>
-              <th>#</th>
+              <th *ngIf="showIdColumns">#</th>
               <th class="text-left">Nombre</th>
               <th class="text-left">Código</th>
               <th>Cantidad Horas</th>
@@ -46,7 +46,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let x of getFilas(lista)">
-              <td>{{x.cargo.id}}</td>
+              <td *ngIf="showIdColumns">{{x.cargo.id}}</td>
               <td class="text-left">{{x.cargo.nombre}}</td>
               <td class="text-left">{{x.cargo.codigo}}</td>
               <td>{{x.cantidadHoras | number:'1.0-0'}}</td>
@@ -55,7 +55,7 @@
           </tbody>
           <tfoot>
             <tr *ngFor="let x of getTotal(lista)">
-              <td colspan="3" class="text-rigth"><b>TOTALES</b></td>
+              <td colspan="2" class="text-rigth"><b>TOTALES</b></td>
               <td class="text-rigth"><b>{{x.cantidadHoras | number:'1.0-0'}}</b></td>
               <td class="text-rigth"><b>$ {{x.precioTotal | number:'1.0-0'}}</b></td>
             </tr>
