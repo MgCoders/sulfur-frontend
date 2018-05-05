@@ -88,12 +88,7 @@ export class ReporteHorasDelMesComponent implements OnInit {
     this.colaboradores = new Array();
     this.fHasta = new Date();
     this.fDesde = new Date();
-    if (this.fDesde.getMonth() === 0) {
-      this.fDesde.setMonth(11);
-      this.fDesde.setFullYear(this.fDesde.getFullYear() - 1);
-    } else {
-      this.fDesde.setMonth(this.fDesde.getMonth() - 1);
-    }
+    this.fDesde.setDate(1);
 
     this.loading++;
     this.layoutService.updatePreloaderState('active');
@@ -239,13 +234,43 @@ export class ReporteHorasDelMesComponent implements OnInit {
   public Download_CSV() {
     // Generamos el archivo con el detalle de la comparacion de horas cargadas vs. estimadas.
     const nombre: string = 'Horas_Reales_Resumen_y_Costos_' + (this.proyectoActual.nombre === undefined ? 'TODOS' : this.proyectoActual.nombre.replace(' ', '_')) + '.csv';
-    const detalle: Array<{ Cargo: string, Codigo: string, Horas_Cargadas: number, Importe_Total: number }> = new Array();
+    const detalle: Array<{ Cargo: string, Codigo: string, Horas_Cargadas: string, Importe_Total: string }> = new Array();
     this.lista.forEach((x) => {
       if (x.cargo !== undefined) {
-        detalle.push({ Cargo: x.cargo.nombre, Codigo: x.cargo.codigo, Horas_Cargadas: x.cantidadHoras, Importe_Total: x.precioTotal });
+        detalle.push({ Cargo: x.cargo.nombre, Codigo: x.cargo.codigo, Horas_Cargadas: x.cantidadHoras.toString().replace('.', ','), Importe_Total: x.precioTotal.toString().replace('.', ',') });
       }
     });
     const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
     FileSaver.saveAs(blob, nombre);
+  }
+
+  MesAnterior() {
+    const newFDesde = new Date();
+    const newFHasta = new Date();
+
+    if (this.fDesde.getMonth() === 0) {
+      newFDesde.setFullYear(this.fDesde.getFullYear() - 1);
+      newFDesde.setMonth(11);
+      newFDesde.setDate(1);
+    } else {
+      newFDesde.setFullYear(this.fDesde.getFullYear());
+      newFDesde.setMonth(this.fDesde.getMonth() - 1);
+      newFDesde.setDate(1);
+    }
+
+    if (this.fHasta.getMonth() === 0) {
+      newFHasta.setFullYear(this.fHasta.getFullYear() - 1);
+      newFHasta.setMonth(11);
+      newFHasta.setDate(new Date(this.fHasta.getFullYear(), this.fHasta.getMonth(), 0).getDate());
+    } else {
+      newFHasta.setFullYear(this.fHasta.getFullYear());
+      newFHasta.setMonth(this.fHasta.getMonth() - 1);
+      newFHasta.setDate(new Date(this.fHasta.getFullYear(), this.fHasta.getMonth(), 0).getDate());
+    }
+
+    this.fDesde = newFDesde;
+    this.fHasta = newFHasta;
+
+    this.Load();
   }
 }

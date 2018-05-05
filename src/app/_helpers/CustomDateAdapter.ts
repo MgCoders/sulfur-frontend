@@ -27,4 +27,12 @@ export class CustomDateAdapter extends NativeDateAdapter {
         const timestamp = typeof value === 'number' ? value : Date.parse(value);
         return isNaN(timestamp) ? undefined : new Date(timestamp);
     }
+
+/*     format(date: Date, displayFormat: object): string {
+        if (!this.isValid(date)) {
+          throw Error('NativeDateAdapter: Cannot format invalid date.');
+        }
+
+        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      } */
 }
