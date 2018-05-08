@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {MatChipInputEvent} from '@angular/material';
-import {ENTER} from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material';
+import { ENTER } from '@angular/cdk/keycodes';
 
 const COMMA = 188;
 
@@ -25,10 +25,9 @@ export class FormChipsComponent {
     { name: 'Apple' },
   ];
 
-
   add(event: MatChipInputEvent): void {
-    let input = event.input;
-    let value = event.value;
+    const input = event.input;
+    const value = event.value;
 
     // Add our person
     if ((value || '').trim()) {
@@ -42,7 +41,7 @@ export class FormChipsComponent {
   }
 
   remove(fruit: any): void {
-    let index = this.fruits.indexOf(fruit);
+    const index = this.fruits.indexOf(fruit);
 
     if (index >= 0) {
       this.fruits.splice(index, 1);

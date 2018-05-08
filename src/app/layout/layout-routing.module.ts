@@ -20,6 +20,13 @@ const routes: Routes = [
       { path: 'horas', loadChildren: '../horas/horas.module#HorasModule' },
       { path: 'reportes', loadChildren: '../reportes/reportes.module#ReportesModule' },
       { path: 'estimaciones', loadChildren: '../estimaciones/estimaciones.module#EstimacionesModule' },
+      { path: 'configuraciones', loadChildren: '../configuracion/configuracion.module#ConfiguracionModule' },
+      { path: 'chart', loadChildren: '../charts/charts.module#ChartsModule' },
+      { path: 'form', loadChildren: '../forms/forms.module#MyFormsModule' },
+      { path: 'page', loadChildren: '../pages/pages.module#PagesModule' },
+      { path: 'pglayout', loadChildren: '../page-layouts/page-layouts.module#PageLayoutsModule' },
+      { path: 'table', loadChildren: '../tables/tables.module#MyTablesModule' },
+      { path: 'ui', loadChildren: '../ui/ui.module#UIModule' },
     ]
   }
 ];

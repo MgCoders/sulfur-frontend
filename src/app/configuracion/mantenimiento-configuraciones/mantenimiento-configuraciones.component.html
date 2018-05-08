@@ -1,0 +1,69 @@
+<section class="container-fluid with-maxwidth chapter">
+  <article class="article">
+    <div class="row">
+      <h2 class="article-title padding-top-30 col-12 col-sm-12">Configuraciones del Sistema</h2>
+    </div>
+
+    <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+      <section class="box box-default">
+        <div class="box-header">Destinatarios de Alertas</div>
+        <div class="box-body">
+          <mat-form-field class="demo-chip-list full-width">
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let correo of correos" [selectable]="selectable" [removable]="removable" (remove)="removeCorreo(correo)">
+                {{correo}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="Nuevo Destinatario..." class="full-width" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addCorreo($event)" />
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </section>
+    </div>
+
+    <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+      <section class="box box-default">
+        <div class="box-header">Otras Configuraciones</div>
+        <div class="box-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <mat-input-container class="full-width">
+                <input [(ngModel)]="nombreProyecto" matInput placeholder="Nombre del Proyecto" name="NombreProyecto" [formControl]="nombreProyectoFC">
+                <mat-error *ngIf="nombreProyectoFC.hasError('required')">El nombre del proyecto es obligatorio.</mat-error>
+              </mat-input-container>
+            </div>
+
+            <div class="col-12 col-sm-6">
+              <mat-input-container class="full-width">
+                <input [(ngModel)]="periodicidad" matInput placeholder="Periodicidad de Notificaciones (horas)" name="Periodicidad" [formControl]="periodicidadFC">
+                <mat-error *ngIf="periodicidadFC.hasError('required')">La periodicidad es obligatorio.</mat-error>
+                <mat-error *ngIf="periodicidadFC.hasError('min')">La periodicidad debe ser mayor que 0.</mat-error>
+                <mat-error *ngIf="periodicidadFC.hasError('pattern')">La periodicidad debe ser un número.</mat-error>
+              </mat-input-container>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <mat-input-container class="full-width">
+                <input [(ngModel)]="urlLogo" matInput placeholder="URL del Logo" name="URLLogo" [formControl]="urlLogoFC">
+                <mat-error *ngIf="urlLogoFC.hasError('required')">La URL del logo es obligatoria.</mat-error>
+              </mat-input-container>
+            </div>
+
+            <div class="col-12 col-sm-6 paddingTop">
+              <mat-checkbox [(ngModel)]="notificacionesPorEmailHabilitadas" name="notificacionesPorEmailHabilitadas">Notificaciones Por Email Habilitadas</mat-checkbox>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="text-left text-sm-right col-12 col-sm-12">
+              <button [disabled]="loading > 0 || nombreProyectoFC.invalid || periodicidadFC.invalid || urlLogoFC.invalid" mat-raised-button color="accent" class="btn-w-md" (click)="Guardar()">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </article>
+</section>
