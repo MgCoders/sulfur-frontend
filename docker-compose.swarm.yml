@@ -6,11 +6,13 @@ services:
     image: 270051160229.dkr.ecr.us-east-1.amazonaws.com/sulfur-frontend
     networks:
       - traefik_proxy
+    environment:
+      - BACKEND_URL: "sulfur.magnesium.link"
     deploy:
       labels:
-        - "traefik.port=8080"
+        - "traefik.port=80"
         - "traefik.backend=web_sulfur-frontend"
-        - "traefik.frontend.rule=Host:marq.magnesium.link"
+        - "traefik.frontend.rule=Host:marq-horas.magnesium.link"
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_proxy"
         - "traefik.backend.loadbalancer.sticky=true"

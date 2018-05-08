@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://jee_sulfur-backend/api',
+  apiUrl: 'https://backend-endpoint/api',
   hmr: false,
   showLoggs: false,
   showIdColumns: false,
