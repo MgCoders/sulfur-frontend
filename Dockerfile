@@ -32,4 +32,4 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
 COPY run.sh /run.sh
 
-CMD ["bash", "/run.sh"]
+CMD ["/run.sh"]
