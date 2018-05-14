@@ -25,7 +25,7 @@ export class MantenimientoConfiguracionesComponent implements OnInit {
   public removable: boolean = true;
   public addOnBlur: boolean = true;
 
-  public exprMail: RegExp = /^[a-z]+[a-z0-9._-]+@[a-z]+\.[a-z.]{2,5}$/;
+  public exprMail: RegExp = /^[a-z]+[a-z0-9._-]+@[a-z]+(\.[a-z.]{2,5})+$/;
   public exprNumreo: RegExp = /^[1-9]+[0-9]*$/;
 
   public nombreProyecto: string;
@@ -45,22 +45,9 @@ export class MantenimientoConfiguracionesComponent implements OnInit {
 
   ngOnInit() {
     this.correos = new Array();
-    this.loading = 1;
+    this.loading = 0;
 
-    this.layoutService.updatePreloaderState('active');
-    this.service.getAll('/configuracion/destinatarios').subscribe(
-      (data) => {
-        this.correos = data;
-        this.loading--;
-        if (this.loading === 0) { this.layoutService.updatePreloaderState('hide'); }
-      },
-      (error) => {
-        this.as.error('Error al cargar los destinatarios. ' + error, 5000);
-        this.loading--;
-        if (this.loading === 0) { this.layoutService.updatePreloaderState('hide'); }
-      }
-    );
-
+    this.getCorreos();
     this.loading++;
     this.service.get('/configuracion/mail').subscribe(
       (data) => {
@@ -118,6 +105,23 @@ export class MantenimientoConfiguracionesComponent implements OnInit {
     );
   }
 
+  getCorreos() {
+    this.layoutService.updatePreloaderState('active');
+    this.loading++;
+    this.service.getAll('/configuracion/destinatarios').subscribe(
+      (data) => {
+        this.correos = data;
+        this.loading--;
+        if (this.loading === 0) { this.layoutService.updatePreloaderState('hide'); }
+      },
+      (error) => {
+        this.as.error('Error al cargar los destinatarios. ' + error, 5000);
+        this.loading--;
+        if (this.loading === 0) { this.layoutService.updatePreloaderState('hide'); }
+      }
+    );
+  }
+
   addCorreo(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -134,7 +138,7 @@ export class MantenimientoConfiguracionesComponent implements OnInit {
       this.loading++;
       this.service.create('/configuracion/destinatarios', value).subscribe(
         (data) => {
-          this.correos = data;
+          this.getCorreos();
           this.loading--;
           if (this.loading === 0) { this.layoutService.updatePreloaderState('hide'); }
         },
@@ -158,7 +162,7 @@ export class MantenimientoConfiguracionesComponent implements OnInit {
     this.loading++;
     this.service.delete('/configuracion/destinatarios', correo).subscribe(
       (data) => {
-        this.correos = data;
+        this.getCorreos();
         this.loading--;
         if (this.loading === 0) { this.layoutService.updatePreloaderState('hide'); }
       },

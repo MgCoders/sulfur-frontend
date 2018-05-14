@@ -95,6 +95,8 @@ import { NotificacionService } from './_services/notificacion.service';
 import { DatePipe } from '@angular/common';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import { CustomDateAdapter } from './_helpers/CustomDateAdapter';
+import { ConfiguracionService } from './_services/configuracion.service';
+import { LayoutService } from './layout/layout.service';
 
 @NgModule({
     imports: [
@@ -193,6 +195,8 @@ import { CustomDateAdapter } from './_helpers/CustomDateAdapter';
             useClass: JwtInterceptor,
             multi: true
         },
+        ConfiguracionService,
+        LayoutService
     ]
 })
 
