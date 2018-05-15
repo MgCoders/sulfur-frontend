@@ -260,6 +260,7 @@ export class ResumenEstudioComponent implements OnInit {
     this.listaTabla.forEach((x) => {
       const aux = {};
       aux['Proyecto'] = x.proyecto.nombre;
+      aux['Observacion'] = x.proyecto.observacion;
       x.porCargo.forEach((c) => {
         aux[c.cargo.codigo] = c.horas;
       });

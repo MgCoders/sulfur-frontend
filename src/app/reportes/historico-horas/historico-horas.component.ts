@@ -46,7 +46,7 @@ export class HistoricoHorasComponent implements OnInit {
   public fDesde: Date;
   public fHasta: Date;
   public lista: Hora[];
-  public listaTotales: Array<{ proyectoId: number, proyectoNombre: string, minutos: number }>;
+  public listaTotales: Array<{ proyectoId: number, proyectoNombre: string, observacion: string, minutos: number }>;
   public total: number;
   public colaboradorActual: Colaborador;
   public loading: boolean;
@@ -121,7 +121,7 @@ export class HistoricoHorasComponent implements OnInit {
       x.horaDetalleList.forEach((y) => {
         const pId: number = this.listaTotales.findIndex((z) => z.proyectoId === y.proyecto.id);
         if (pId < 0) {
-          this.listaTotales.push({ proyectoId: y.proyecto.id, proyectoNombre: y.proyecto.nombre, minutos: this.timePipe.transform(y.duracion, ['minutos']) });
+          this.listaTotales.push({ proyectoId: y.proyecto.id, proyectoNombre: y.proyecto.nombre,  observacion: y.proyecto.observacion, minutos: this.timePipe.transform(y.duracion, ['minutos']) });
         } else {
           this.listaTotales.find((z) => z.proyectoId === y.proyecto.id).minutos += this.timePipe.transform(y.duracion, ['minutos']);
         }
@@ -162,9 +162,9 @@ export class HistoricoHorasComponent implements OnInit {
     const nombre2: string = 'Historico_Horas_Resumen_' + this.colaboradorActual.id.toString() + '_' +
       this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
       this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
-    const resumen: Array<{Proyecto: string, Horas: string}> = new Array();
+    const resumen: Array<{Proyecto: string, Observacion: string, Horas: string}> = new Array();
     this.listaTotales.forEach((x) => {
-      resumen.push({Proyecto: x.proyectoNombre, Horas: this.GetMinutosToString2(x.minutos)});
+      resumen.push({Proyecto: x.proyectoNombre, Observacion: x.observacion, Horas: this.GetMinutosToString2(x.minutos)});
     });
     const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);

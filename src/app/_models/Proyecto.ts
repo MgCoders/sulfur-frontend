@@ -22,4 +22,6 @@ export interface Proyecto {
     prioridad: number;
 
     enabled: boolean;
+
+    observacion: string;
 }

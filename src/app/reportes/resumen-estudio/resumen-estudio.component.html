@@ -82,7 +82,7 @@
     </div>
 
     <div class="row" *ngIf="listaTabla !== undefined && listaTabla.length > 0 && !loading">
-      <div class="col-xl-8 offset-xl-2 col-md-10 offset-md-1 col-sm-12 col-12">
+      <div class="col-12">
         <div class="box box-transparent">
           <div class="box-body no-padding-h">
             <div class="box box-default table-box mdl-shadow--2dp table-responsive">
@@ -94,7 +94,8 @@
                     </th>
                   </tr>
                   <tr>
-                    <th></th>
+                    <th class="text-left">Proyecto</th>
+                    <th class="text-left">Observación</th>
                     <th *ngFor="let c of cargosHeader">{{c.codigo}}</th>
                     <th>Total Horas</th>
                     <th>Total Importe</th>
@@ -103,6 +104,7 @@
                 <tbody>
                   <tr *ngFor="let y of listaTabla">
                     <td class="text-left">{{y.proyecto.nombre}}</td>
+                    <td class="text-left">{{y.proyecto.observacion}}</td>
                     <td class="text-right" *ngFor="let c of y.porCargo">{{c.horas | number:'1.0-0'}}</td>
                     <td class="text-right">
                       <span>{{y.totalHoras | number:'1.0-0'}}</span>
@@ -114,7 +116,7 @@
                 </tbody>
                 <tfoot>
                   <tr *ngFor="let y of listaTablaTotales">
-                    <td class="text-rigth">
+                    <td colspan="2" class="text-rigth">
                       <b>TOTALES</b>
                     </td>
                     <td class="text-right" *ngFor="let c of y.porCargo">{{c.horas | number:'1.0-0'}}</td>

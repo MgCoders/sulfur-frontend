@@ -11,11 +11,14 @@ export class ProyectoImp implements models.Proyecto {
 
     enabled: boolean;
 
+    observacion: string;
+
     public constructor(x: models.Proyecto) {
         this.id = x.id;
         this.nombre = x.nombre;
         this.codigo = x.codigo;
         this.prioridad = x.prioridad;
         this.enabled = x.enabled;
+        this.observacion = x.observacion;
     }
 }
