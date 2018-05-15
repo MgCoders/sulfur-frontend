@@ -14,6 +14,7 @@ import { HorasReporte1 } from '../../_models/HorasProyectoTipoTareaXCargo';
 import { CargoService } from '../../_services/cargo.service';
 import { PapaParseService } from 'ngx-papaparse';
 import * as FileSaver from 'file-saver';
+import { ProyectoImp } from '../../_models/models';
 
 @Component({
     selector: 'app-horas-estimadas-vs-cargadas',
@@ -71,7 +72,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     }
 
     proyectoSeleccionado(proyecto: Proyecto) {
-        this.proyectoActual = proyecto;
+        this.proyectoActual = new ProyectoImp(proyecto);
         this.proyectoOTareaSeleccionados();
     }
 

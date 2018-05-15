@@ -31,6 +31,13 @@
       <div class="row">
         <div class="col-12">
           <mat-input-container class="full-width">
+            <input [(ngModel)]="proyectoActual.observacion" matInput placeholder="Observación" name="Observacion" [formControl]="observacionFC">
+          </mat-input-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-input-container class="full-width">
             <input [(ngModel)]="proyectoActual.prioridad" matInput placeholder="Prioridad" name="Prioridad" [formControl]="prioridadFC">
             <mat-error *ngIf="prioridadFC.invalid">La prioridad del proyecto obligatoria y debe ser numérica.</mat-error>
           </mat-input-container>

@@ -10,7 +10,8 @@ import {
   HoraDetalle,
   HoraDetalleImp,
   Colaborador,
-  Cargo
+  Cargo,
+  ProyectoImp
 } from '../../_models/models';
 import { HoraImp } from '../../_models/HoraImp';
 import { HoraService } from '../../_services/hora.service';
@@ -193,7 +194,7 @@ export class ReporteHorasDelMesComponent implements OnInit {
   }
 
   proyectoSeleccionado(proyecto: Proyecto) {
-    this.proyectoActual = proyecto;
+    this.proyectoActual = new ProyectoImp(proyecto);
     this.Load();
   }
 

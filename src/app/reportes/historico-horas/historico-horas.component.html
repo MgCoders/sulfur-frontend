@@ -35,14 +35,14 @@
     </div>
 
     <div class="row" *ngIf="listaTotales !== undefined && listaTotales.length > 0 && !loading">
-      <div class="col-xl-4 offset-xl-4 col-md-6 offset-md-3 col-sm-12 col-12">
+      <div class="col-xl-6 offset-xl-3 col-md-8 offset-md-2 col-sm-12 col-12">
         <div class="box box-transparent">
           <div class="box-body no-padding-h">
             <div class="box box-default table-box mdl-shadow--2dp table-responsive">
               <table class="mdl-data-table with-maxwidth">
                 <thead>
                   <tr>
-                    <th class="text-center" colspan="2">
+                    <th class="text-center" colspan="3">
                       Resumen de Horas Por Proyecto
                     </th>
                   </tr>
@@ -50,6 +50,7 @@
                 <tbody>
                   <tr *ngFor="let y of listaTotales">
                     <td class="text-left">{{y.proyectoNombre}}</td>
+                    <td class="text-left">{{y.observacion}}</td>
                     <td class="text-right">
                       <span>{{GetMinutosToString(y.minutos)}}</span>
                     </td>
@@ -57,7 +58,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td class="text-rigth">
+                    <td colspan="2" class="text-rigth">
                       <b>TOTALES</b>
                     </td>
                     <td>

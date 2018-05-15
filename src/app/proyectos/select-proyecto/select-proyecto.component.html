@@ -2,7 +2,7 @@
     <mat-select [(ngModel)]="object[idModel]" [placeholder]="placeHolder" class="full-width" (change)="onChangeValue($event)">
         <mat-option *ngIf="addEmptyOption" [value]="undefined">
         </mat-option>
-        <mat-option *ngFor="let x of lista" [value]="x[id]">
+        <mat-option matTooltipPosition="above" [matTooltip]="x.observacion" *ngFor="let x of lista" [value]="x[id]">
             {{x[desc]}}
         </mat-option>
     </mat-select>

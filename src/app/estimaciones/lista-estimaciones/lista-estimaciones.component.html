@@ -16,6 +16,7 @@
           <tr>
             <th>#</th>
             <th class="mdl-data-table__cell--non-numeric">Proyecto</th>
+            <th class="mdl-data-table__cell--non-numeric">Observación</th>
             <th class="mdl-data-table__cell--non-numeric">Fecha</th>
             <th class="mdl-data-table__cell--non-numeric">Descripción</th>
             <!-- <th>Precio/Hora</th> -->
@@ -26,6 +27,7 @@
           <tr *ngFor="let x of lista">
             <td>{{x.id}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.proyecto.nombre}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{x.proyecto.observacion}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.fecha}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.descripcion}}</td>
             <!-- <td>{{x.precioHora | number:'1.2'}}</td> -->

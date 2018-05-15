@@ -2,10 +2,18 @@
 
   <article class="article">
     <div class="row">
-      <h2 class="article-title col-12 col-sm-6">
-        <span *ngIf="estimacionActual !== undefined">Estimación - {{estimacionActual.proyecto.nombre}} - {{estimacionActual.fecha}} - {{estimacionActual.descripcion}}</span>
+      <h2 class="article-title col-xl-9 col-12 col-md-6 col-sm-4">
+        <span *ngIf="estimacionActual !== undefined">Estimación</span>
+        <span *ngIf="estimacionActual !== undefined" class="space"></span>
+        <span *ngIf="estimacionActual !== undefined" class="badge badge-pill badge-warning">{{estimacionActual.fecha}}</span>
+        <span *ngIf="estimacionActual !== undefined" class="space"></span>
+        <span *ngIf="estimacionActual !== undefined" class="badge badge-pill badge-primary">{{estimacionActual.proyecto.nombre}}</span>
+        <span *ngIf="estimacionActual !== undefined" class="space"></span>
+        <span *ngIf="estimacionActual !== undefined" class="badge badge-pill badge-info">{{estimacionActual.descripcion}}</span>
+        <span *ngIf="estimacionActual !== undefined && estimacionActual.proyecto.observacion !== undefined && estimacionActual.proyecto.observacion !== ''" class="space"></span>
+        <span *ngIf="estimacionActual !== undefined && estimacionActual.proyecto.observacion !== undefined && estimacionActual.proyecto.observacion !== ''" class="badge badge-pill badge-success">{{estimacionActual.proyecto.observacion}}</span>
       </h2>
-      <div class="col-12 col-sm-6">
+      <div class="col-xl-3 col-12 col-md-6 col-sm-8 full-width text-sm-right text-left">
         <button *ngIf="!editando && estimacionActual !== undefined" matTooltipPosition="above" matTooltip="Editar Estimación." mat-icon-button
           color="primary" (click)="Editar()">
           <mat-icon class="material-icons">mode_edit</mat-icon>

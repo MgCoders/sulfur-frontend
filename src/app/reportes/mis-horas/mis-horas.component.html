@@ -1,7 +1,7 @@
 <section class="container-fluid with-maxwidth chapter">
   <article class="article">
     <div class="row">
-      <h2 class="article-title col-12 col-sm-6">
+      <h2 class="article-title col-12 col-sm-5">
         <span>Mis Horas</span>
       </h2>
       <div class="col-12 col-sm-3">
@@ -17,6 +17,11 @@
           <mat-datepicker-toggle matSuffix [for]="pickerFHasta"></mat-datepicker-toggle>
           <mat-datepicker #pickerFHasta></mat-datepicker>
         </mat-form-field>
+      </div>      
+      <div class="col-12 col-sm-1 full-width text-sm-right text-left">
+        <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading" (click)="MesAnterior()" mat-icon-button color="warn">
+          <mat-icon class="material-icons">replay</mat-icon>
+        </button>
       </div>
     </div>
 
