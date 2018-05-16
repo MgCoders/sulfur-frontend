@@ -31,7 +31,9 @@
       <div class="row">
         <div class="col-12">
           <mat-input-container class="full-width">
-            <input [(ngModel)]="proyectoActual.observacion" matInput placeholder="Observación" name="Observacion" [formControl]="observacionFC">
+            <textarea rows="3" [(ngModel)]="proyectoActual.observacion" matInput placeholder="Observación" name="Observacion" [formControl]="observacionFC"></textarea>
+            <mat-hint align="end">{{proyectoActual.observacion.length}} / 256</mat-hint>
+            <mat-error *ngIf="observacionFC.invalid">La observación no puede superar los 256 caracteres.</mat-error>
           </mat-input-container>
         </div>
       </div>

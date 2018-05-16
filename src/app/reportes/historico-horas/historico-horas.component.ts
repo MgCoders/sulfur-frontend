@@ -139,7 +139,7 @@ export class HistoricoHorasComponent implements OnInit {
   GetMinutosToString2(m: number) {
     const horas = Math.trunc((m) / 60);
     const minutos = (m) - Math.trunc((m) / 60) * 60;
-    return horas + 'H:' + minutos + 'M';
+    return horas + ':' + minutos;
   }
 
   ColaboradorOnChange(evt: Colaborador) {
@@ -148,7 +148,7 @@ export class HistoricoHorasComponent implements OnInit {
 
   public Download_CSV() {
     // Generamos el archivo con el detalle del historico de horas.
-    const nombre: string = 'Historico_Horas_Detalle_' + this.colaboradorActual.id.toString() + '_' +
+    const nombre: string = this.colaboradorActual.nombre.replace(' ', '_') + '_detalle_' +
       this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
       this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
     const detalle: Array<{Dia: string, Hora_Entrada: string, Hora_Salida: string, Tiempo_Total: string, Horas_Cargadas: string, Status: string}> = new Array();
@@ -159,12 +159,13 @@ export class HistoricoHorasComponent implements OnInit {
     FileSaver.saveAs(blob, nombre);
 
     // Generamos el archivo con el resumen del historico de horas.
-    const nombre2: string = 'Historico_Horas_Resumen_' + this.colaboradorActual.id.toString() + '_' +
+    const nombre2: string = this.colaboradorActual.nombre.replace(' ', '_') + '_resumen_' +
       this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
       this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
-    const resumen: Array<{Proyecto: string, Observacion: string, Horas: string}> = new Array();
+    const resumen: Array<{Proyecto: string, Observacion: string, Horas: string, Minutos: string}> = new Array();
     this.listaTotales.forEach((x) => {
-      resumen.push({Proyecto: x.proyectoNombre, Observacion: x.observacion, Horas: this.GetMinutosToString2(x.minutos)});
+      const cantHoras: string[] = this.GetMinutosToString2(x.minutos).split(':');
+      resumen.push({Proyecto: x.proyectoNombre, Observacion: x.observacion, Horas: cantHoras[0], Minutos: cantHoras[1] });
     });
     const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);
