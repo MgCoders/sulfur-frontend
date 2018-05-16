@@ -166,7 +166,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
 
     public Download_CSV() {
         // Generamos el archivo con el detalle de la comparacion de horas cargadas vs. estimadas.
-        const nombre: string = 'Estimadas_Vs_Reales_Detalle_' + this.proyectoActual.nombre.replace(' ', '_') + '.csv';
+        const nombre: string = this.proyectoActual.nombre.replace(' ', '_') + '_EVR_detalle.csv';
         const detalle: Array<{Tarea: string, Cargo: string, Horas_Estimadas: string, Horas_Cargadas: string}> = new Array();
         this.horasPTXC.forEach((x) => {
             this.getFilas(x.horas).forEach((y) => {
@@ -177,7 +177,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
         FileSaver.saveAs(blob, nombre);
 
         // Generamos el archivo con el resumen de la comparacion de horas cargadas vs. estimadas.
-        const nombre2: string = 'Estimadas_Vs_Reale_Resumen_' + this.proyectoActual.nombre.replace(' ', '_') + '.csv';
+        const nombre2: string = this.proyectoActual.nombre.replace(' ', '_') + '_EVR_resumen.csv';
         const resumen: Array<{Cargo: string, Horas_Estimadas: string, Costo_Estimado: string, Horas_Cargadas: string, Costo_Real: string}> = new Array();
         this.getFilas(this.totales).forEach((x) => {
             resumen.push({Cargo: x.cargo.nombre, Horas_Estimadas: x.cantidadHorasEstimadas.toString().replace('.', ','), Costo_Estimado: x.precioEstimado.toString().replace('.', ','), Horas_Cargadas: x.cantidadHoras.toString().replace('.', ','), Costo_Real: x.precioTotal.toString().replace('.', ',') });

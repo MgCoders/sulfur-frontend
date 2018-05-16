@@ -10,6 +10,7 @@ import {
 } from '@angular/material';
 
 import { DisableControlDirective } from '../_directives/disable-control.directive';
+import { DialogInfoComponent } from './dialog-info/dialog-info.component';
 
 @NgModule({
   imports: [
@@ -20,17 +21,20 @@ import { DisableControlDirective } from '../_directives/disable-control.directiv
     EChartsDirective,
     SlimScrollDirective,
     DialogConfirmComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    DialogInfoComponent
   ],
   exports: [
     EChartsDirective,
     SlimScrollDirective,
     DialogConfirmComponent,
-    DisableControlDirective
+    DisableControlDirective,
+    DialogInfoComponent
   ],
 
   entryComponents: [
     DialogConfirmComponent,
+    DialogInfoComponent
   ]
 })
 

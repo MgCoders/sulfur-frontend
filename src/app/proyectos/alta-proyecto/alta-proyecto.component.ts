@@ -18,7 +18,7 @@ export class AltaProyectoComponent implements OnInit {
 
   public nombreFC = new FormControl('', [Validators.required]);
   public codigoFC = new FormControl('', [Validators.required]);
-  public observacionFC = new FormControl('', []);
+  public observacionFC = new FormControl('', [Validators.maxLength(256)]);
   public prioridadFC = new FormControl('', [Validators.required, Validators.pattern('[0-9]+')]);
 
   public loading: boolean;
@@ -34,6 +34,7 @@ export class AltaProyectoComponent implements OnInit {
     if (this.data[0] === undefined) {
       this.proyectoActual = {} as Proyecto;
       this.proyectoActual.enabled = true;
+      this.proyectoActual.observacion = '';
     } else {
       this.proyectoActual = new ProyectoImp(this.data[0]);
     }
