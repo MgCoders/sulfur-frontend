@@ -39,6 +39,7 @@ import { EstimacionDetalleComponent } from './estimacion-detalle/estimacion-deta
 import { PipesModule } from '../_pipes/pipes.module';
 
 import { SharedModule } from '../shared/shared.module';
+import { DialogInfoComponent } from '../shared/dialog-info/dialog-info.component';
 
 @NgModule({
   imports: [
@@ -82,7 +83,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
 
   entryComponents: [
-    AltaEstimacionComponent
+    AltaEstimacionComponent,
+    DialogInfoComponent
   ]
 })
 export class EstimacionesModule { }

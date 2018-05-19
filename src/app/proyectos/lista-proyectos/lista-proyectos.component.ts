@@ -7,6 +7,7 @@ import { Proyecto } from '../../_models/models';
 import { LayoutService } from '../../layout/layout.service';
 import { DialogConfirmComponent } from '../../shared/dialog-confirm/dialog-confirm.component';
 import { environment } from '../../../environments/environment';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-lista-proyectos',
@@ -82,5 +83,12 @@ export class ListaProyectosComponent implements OnInit {
           return b.prioridad - a.prioridad;
         });
       });
+  }
+
+  VerObservaciones(x: string) {
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      data: ['Observaciones', x],
+      width: '600px',
+    });
   }
 }

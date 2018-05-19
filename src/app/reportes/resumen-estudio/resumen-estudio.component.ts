@@ -42,6 +42,7 @@ import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
 import { HorasReporte1 } from '../../_models/HorasProyectoTipoTareaXCargo';
 import { CargoImp } from '../../_models/CargoImp';
 import { CargoService } from '../../_services/cargo.service';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-resumen-estudio',
@@ -300,5 +301,12 @@ export class ResumenEstudioComponent implements OnInit {
     this.fHasta = newFHasta;
 
     this.Reload();
+  }
+
+  VerObservaciones(x: string) {
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      data: ['Observaciones', x],
+      width: '600px',
+    });
   }
 }

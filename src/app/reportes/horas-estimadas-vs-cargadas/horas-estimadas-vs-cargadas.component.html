@@ -6,8 +6,12 @@
         <span>Proyectos Detalle</span>
         <span *ngIf="proyectoActual !== undefined" class="space"></span>
         <span *ngIf="proyectoActual !== undefined" class="badge badge-pill badge-primary">{{proyectoActual.nombre}}</span>
-        <span *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''" class="space"></span>
-        <span *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''" class="badge badge-pill badge-success">{{proyectoActual.observacion}}</span>
+        <span *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''"
+          class="space"></span>
+        <button *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''"
+          matTooltipPosition="above" matTooltip="Ver Observaciones." mat-icon-button (click)="VerObservaciones(proyectoActual.observacion)">
+          <mat-icon class="material-icons">visibility</mat-icon>
+        </button>
       </h2>
       <div class="col-12 col-sm-2">
       </div>

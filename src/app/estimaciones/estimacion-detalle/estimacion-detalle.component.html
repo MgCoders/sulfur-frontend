@@ -10,8 +10,12 @@
         <span *ngIf="estimacionActual !== undefined" class="badge badge-pill badge-primary">{{estimacionActual.proyecto.nombre}}</span>
         <span *ngIf="estimacionActual !== undefined" class="space"></span>
         <span *ngIf="estimacionActual !== undefined" class="badge badge-pill badge-info">{{estimacionActual.descripcion}}</span>
-        <span *ngIf="estimacionActual !== undefined && estimacionActual.proyecto.observacion !== undefined && estimacionActual.proyecto.observacion !== ''" class="space"></span>
-        <span *ngIf="estimacionActual !== undefined && estimacionActual.proyecto.observacion !== undefined && estimacionActual.proyecto.observacion !== ''" class="badge badge-pill badge-success">{{estimacionActual.proyecto.observacion}}</span>
+        <span *ngIf="estimacionActual !== undefined && estimacionActual.proyecto.observacion !== undefined && estimacionActual.proyecto.observacion !== ''"
+          class="space"></span>
+        <button *ngIf="estimacionActual !== undefined && estimacionActual.proyecto.observacion !== undefined && estimacionActual.proyecto.observacion !== ''"
+          matTooltipPosition="above" matTooltip="Ver Observaciones." mat-icon-button (click)="VerObservaciones(estimacionActual.proyecto.observacion)">
+          <mat-icon class="material-icons">visibility</mat-icon>
+        </button>
       </h2>
       <div class="col-xl-3 col-12 col-md-6 col-sm-8 full-width text-sm-right text-left">
         <button *ngIf="!editando && estimacionActual !== undefined" matTooltipPosition="above" matTooltip="Editar Estimación." mat-icon-button
@@ -67,7 +71,7 @@
     </div>
 
     <div class="row" *ngIf="estimacionActual !== undefined">
-      <div class= "col-md-6 col-12">
+      <div class="col-md-6 col-12">
         <div class="box box-transparent">
           <div class="box-body no-padding-h">
             <div class="box box-default table-box mdl-shadow--2dp table-responsive">
@@ -89,7 +93,7 @@
                   <tr *ngFor="let y of horaCargo">
                     <td class="text-left">{{y.codigo}}</td>
 
-                    <td class="text-rigth"*ngIf="!editando">
+                    <td class="text-rigth" *ngIf="!editando">
                       <span>$ {{y.value | number:'1.0-0'}}</span>
                     </td>
                     <td *ngIf="editando" class="text-rigth noPading">
@@ -108,43 +112,49 @@
         </div>
       </div>
 
-      <div class= "col-md-6 col-12">
-          <div class="box box-transparent">
-            <div class="box-body no-padding-h">
-              <div class="box box-default table-box mdl-shadow--2dp table-responsive">
-                <table class="mdl-data-table with-maxwidth">
-                  <thead>
-                    <tr>
-                      <th class="text-left">
-                        Cargo
-                      </th>
-                      <th class="text-rigth">
-                        Total Horas Estimadas
-                      </th>
-                      <th class="text-rigth">
-                        Total Costo Estimado $
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let y of horaCargo">
-                      <td class="text-left">{{y.codigo}}</td>
-                      <td class="text-rigth">{{GetTotalHorasEstimacionPorCargo(y.idCargo) | number:'1.0-0'}}</td>  
-                      <td class="text-rigth">$ {{GetTotalImporteEstimacionPorCargo(y.idCargo) | number:'1.0-0'}}</td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td class="text-left"><b>TOTALES</b></td>
-                      <td class="text-rigth"><b>{{GetTotalHorasEstimacion() | number:'1.0-0'}}</b></td>
-                      <td class="text-rigth"><b>$ {{GetTotalImporteEstimacion() | number:'1.0-0'}}</b></td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
+      <div class="col-md-6 col-12">
+        <div class="box box-transparent">
+          <div class="box-body no-padding-h">
+            <div class="box box-default table-box mdl-shadow--2dp table-responsive">
+              <table class="mdl-data-table with-maxwidth">
+                <thead>
+                  <tr>
+                    <th class="text-left">
+                      Cargo
+                    </th>
+                    <th class="text-rigth">
+                      Total Horas Estimadas
+                    </th>
+                    <th class="text-rigth">
+                      Total Costo Estimado $
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let y of horaCargo">
+                    <td class="text-left">{{y.codigo}}</td>
+                    <td class="text-rigth">{{GetTotalHorasEstimacionPorCargo(y.idCargo) | number:'1.0-0'}}</td>
+                    <td class="text-rigth">$ {{GetTotalImporteEstimacionPorCargo(y.idCargo) | number:'1.0-0'}}</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td class="text-left">
+                      <b>TOTALES</b>
+                    </td>
+                    <td class="text-rigth">
+                      <b>{{GetTotalHorasEstimacion() | number:'1.0-0'}}</b>
+                    </td>
+                    <td class="text-rigth">
+                      <b>$ {{GetTotalImporteEstimacion() | number:'1.0-0'}}</b>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
           </div>
         </div>
+      </div>
     </div>
 
   </article>

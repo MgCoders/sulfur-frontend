@@ -6,7 +6,8 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
 
 import {
   MatDialogModule,
-  MatButtonModule
+  MatButtonModule,
+  MatIconModule,
 } from '@angular/material';
 
 import { DisableControlDirective } from '../_directives/disable-control.directive';
@@ -16,6 +17,7 @@ import { DialogInfoComponent } from './dialog-info/dialog-info.component';
   imports: [
     MatDialogModule,
     MatButtonModule,
+    MatIconModule,
   ],
   declarations: [
     EChartsDirective,

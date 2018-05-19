@@ -45,6 +45,7 @@ import { PapaParseService } from 'ngx-papaparse';
 import * as FileSaver from 'file-saver';
 import { HorasReporte1 } from '../../_models/HorasProyectoTipoTareaXCargo';
 import { CargoImp } from '../../_models/CargoImp';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-reporte-horas-del-mes',
@@ -279,5 +280,12 @@ export class ReporteHorasDelMesComponent implements OnInit {
     this.fHasta = newFHasta;
 
     this.Load();
+  }
+
+  VerObservaciones(x: string) {
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      data: ['Observaciones', x],
+      width: '600px',
+    });
   }
 }

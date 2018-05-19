@@ -23,6 +23,8 @@ import {
 } from '@angular/forms';
 import { CustomDatePipe } from '../../_pipes/customDate.pipe';
 import { CargoImp } from '../../_models/CargoImp';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-estimacion-detalle',
@@ -50,7 +52,8 @@ export class EstimacionDetalleComponent implements OnInit {
               private route: ActivatedRoute,
               private timePipe: TimePipe,
               private datePipe: CustomDatePipe,
-              private layoutService: LayoutService) { }
+              private layoutService: LayoutService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.editando = false;
@@ -286,5 +289,12 @@ export class EstimacionDetalleComponent implements OnInit {
     } else {
       return lPrecio[0].precioHora;
     }
+  }
+
+  VerObservaciones(x: string) {
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      data: ['Observaciones', x],
+      width: '600px',
+    });
   }
 }
