@@ -1,70 +1,85 @@
 <section class="container-fluid with-maxwidth chapter">
-    <article class="article">
-      <div class="row">
-        <h2 class="article-title col-12 col-sm-4">
-          <span>Proyectos Resumen</span>
-          <span *ngIf="proyectoActual !== undefined" class="space"></span>
-          <span *ngIf="proyectoActual !== undefined" class="badge badge-pill badge-primary">{{proyectoActual.nombre}}</span>
-          <span *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''" class="space"></span>
-          <span *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''" class="badge badge-pill badge-success">{{proyectoActual.observacion}}</span>
-        </h2>
-        <div class="col-12 col-sm-2">
-          <app-select-proyecto [object]="proyectoActual" [addEmptyOption]="false" idModel="id" placeHolder="PROYECTOS" id="id" desc="nombre" (onChange)="proyectoSeleccionado($event)"></app-select-proyecto>
-        </div>
-        <div class="col-12 col-sm-2">
-          <mat-form-field class="full-width">
-            <input [(ngModel)]="fDesde" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFDesde" placeholder="Fecha Desde" [formControl]="fDesdeFC">
-            <mat-datepicker-toggle matSuffix [for]="pickerFDesde"></mat-datepicker-toggle>
-            <mat-datepicker #pickerFDesde></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="col-12 col-sm-2">
-          <mat-form-field class="full-width">
-            <input [(ngModel)]="fHasta" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFHasta" placeholder="Fecha Hasta" [formControl]="fHastaFC">
-            <mat-datepicker-toggle matSuffix [for]="pickerFHasta"></mat-datepicker-toggle>
-            <mat-datepicker #pickerFHasta></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="col-6 col-sm-1 full-width text-sm-right text-left">
-          <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading > 0" (click)="MesAnterior()" mat-icon-button color="warn">
-            <mat-icon class="material-icons">replay</mat-icon>
-          </button>
-        </div>
-        <div class="col-6 col-sm-1 full-width text-sm-right text-left">
-          <button matTooltipPosition="above" matTooltip="Bajar archivo csv con los datos." [disabled]="loading > 0" (click)="Download_CSV()" mat-icon-button color="primary">
-            <mat-icon class="material-icons">file_download</mat-icon>
-          </button>
-        </div>
+  <article class="article">
+    <div class="row">
+      <h2 class="article-title col-12 col-sm-4">
+        <span>Proyectos Resumen</span>
+        <span *ngIf="proyectoActual !== undefined" class="space"></span>
+        <span *ngIf="proyectoActual !== undefined" class="badge badge-pill badge-primary">{{proyectoActual.nombre}}</span>
+        <span *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''"
+          class="space"></span>
+        <button *ngIf="proyectoActual !== undefined && proyectoActual.observacion !== undefined && proyectoActual.observacion !== ''"
+          matTooltipPosition="above" matTooltip="Ver Observaciones." mat-icon-button (click)="VerObservaciones(proyectoActual.observacion)">
+          <mat-icon class="material-icons">visibility</mat-icon>
+        </button>
+      </h2>
+      <div class="col-12 col-sm-2">
+        <app-select-proyecto [object]="proyectoActual" [addEmptyOption]="false" idModel="id" placeHolder="PROYECTOS" id="id" desc="nombre"
+          (onChange)="proyectoSeleccionado($event)"></app-select-proyecto>
       </div>
-  
-      <div class="box box-default table-box table-responsive mdl-shadow--2dp">
-        <table class="mdl-data-table" *ngIf="loading === 0">
-          <thead>
-            <tr>
-              <th *ngIf="showIdColumns">#</th>
-              <th class="text-left">Nombre</th>
-              <th class="text-left">Código</th>
-              <th>Cantidad Horas</th>
-              <th>Importe Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let x of getFilas(lista)">
-              <td *ngIf="showIdColumns">{{x.cargo.id}}</td>
-              <td class="text-left">{{x.cargo.nombre}}</td>
-              <td class="text-left">{{x.cargo.codigo}}</td>
-              <td>{{x.cantidadHoras | number:'1.0-0'}}</td>
-              <td>$ {{x.precioTotal | number:'1.0-0'}}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr *ngFor="let x of getTotal(lista)">
-              <td colspan="2" class="text-rigth"><b>TOTALES</b></td>
-              <td class="text-rigth"><b>{{x.cantidadHoras | number:'1.0-0'}}</b></td>
-              <td class="text-rigth"><b>$ {{x.precioTotal | number:'1.0-0'}}</b></td>
-            </tr>
-          </tfoot>
-        </table>
+      <div class="col-12 col-sm-2">
+        <mat-form-field class="full-width">
+          <input [(ngModel)]="fDesde" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFDesde" placeholder="Fecha Desde"
+            [formControl]="fDesdeFC">
+          <mat-datepicker-toggle matSuffix [for]="pickerFDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFDesde></mat-datepicker>
+        </mat-form-field>
       </div>
-    </article>
-  </section>
+      <div class="col-12 col-sm-2">
+        <mat-form-field class="full-width">
+          <input [(ngModel)]="fHasta" (dateChange)="Load()" class="full-width" matInput [matDatepicker]="pickerFHasta" placeholder="Fecha Hasta"
+            [formControl]="fHastaFC">
+          <mat-datepicker-toggle matSuffix [for]="pickerFHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFHasta></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-6 col-sm-1 full-width text-sm-right text-left">
+        <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading > 0" (click)="MesAnterior()" mat-icon-button
+          color="warn">
+          <mat-icon class="material-icons">replay</mat-icon>
+        </button>
+      </div>
+      <div class="col-6 col-sm-1 full-width text-sm-right text-left">
+        <button matTooltipPosition="above" matTooltip="Bajar archivo csv con los datos." [disabled]="loading > 0" (click)="Download_CSV()"
+          mat-icon-button color="primary">
+          <mat-icon class="material-icons">file_download</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="box box-default table-box table-responsive mdl-shadow--2dp">
+      <table class="mdl-data-table" *ngIf="loading === 0">
+        <thead>
+          <tr>
+            <th *ngIf="showIdColumns">#</th>
+            <th class="text-left">Nombre</th>
+            <th class="text-left">Código</th>
+            <th>Cantidad Horas</th>
+            <th>Importe Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of getFilas(lista)">
+            <td *ngIf="showIdColumns">{{x.cargo.id}}</td>
+            <td class="text-left">{{x.cargo.nombre}}</td>
+            <td class="text-left">{{x.cargo.codigo}}</td>
+            <td>{{x.cantidadHoras | number:'1.0-0'}}</td>
+            <td>$ {{x.precioTotal | number:'1.0-0'}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr *ngFor="let x of getTotal(lista)">
+            <td colspan="2" class="text-rigth">
+              <b>TOTALES</b>
+            </td>
+            <td class="text-rigth">
+              <b>{{x.cantidadHoras | number:'1.0-0'}}</b>
+            </td>
+            <td class="text-rigth">
+              <b>$ {{x.precioTotal | number:'1.0-0'}}</b>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </article>
+</section>

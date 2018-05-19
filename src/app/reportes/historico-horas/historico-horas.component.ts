@@ -9,7 +9,8 @@ import {
   TipoTarea,
   HoraDetalle,
   HoraDetalleImp,
-  Colaborador
+  Colaborador,
+  ColaboradorImp
 } from '../../_models/models';
 import { HoraImp } from '../../_models/HoraImp';
 import { HoraService } from '../../_services/hora.service';
@@ -35,6 +36,7 @@ import {
 import { TimePipe } from '../../_pipes/time.pipe';
 import { PapaParseService } from 'ngx-papaparse';
 import * as FileSaver from 'file-saver';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-historico-horas',
@@ -143,6 +145,7 @@ export class HistoricoHorasComponent implements OnInit {
   }
 
   ColaboradorOnChange(evt: Colaborador) {
+    this.colaboradorActual = new ColaboradorImp(evt);
     this.Reload();
   }
 
@@ -199,5 +202,12 @@ export class HistoricoHorasComponent implements OnInit {
     this.fHasta = newFHasta;
 
     this.Reload();
+  }
+
+  VerObservaciones(x: string) {
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      data: ['Observaciones', x],
+      width: '600px',
+    });
   }
 }

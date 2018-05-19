@@ -15,6 +15,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { AltaEstimacionComponent } from '../alta-estimacion/alta-estimacion.component';
 import { CustomDatePipe } from '../../_pipes/customDate.pipe';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
 
 @Component({
   selector: 'app-lista-estimaciones',
@@ -106,5 +107,12 @@ export class ListaEstimacionesComponent implements OnInit {
     } else {
       this.LoadEstimacionesPorProyecto(x.id);
     }
+  }
+
+  VerObservaciones(x: string) {
+    const dialogRef = this.dialog.open(DialogInfoComponent, {
+      data: ['Observaciones', x],
+      width: '600px',
+    });
   }
 }

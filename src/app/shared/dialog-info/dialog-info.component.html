@@ -1,3 +1,16 @@
-<p>
-  dialog-info works!
-</p>
+<h1 mat-dialog-title>
+  <div class="row">
+    <div class="col-10 text-left">
+      {{data[0]}}
+    </div>
+    <div class="text-left text-sm-right col-2">
+      <button mat-icon-button (click)="Close()">
+        <mat-icon class="material-icons">close</mat-icon>
+      </button>
+    </div>
+  </div>
+</h1>
+
+<div mat-dialog-content>
+  {{data[1]}}
+</div>

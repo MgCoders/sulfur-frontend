@@ -15,6 +15,8 @@ import { CargoService } from '../../_services/cargo.service';
 import { PapaParseService } from 'ngx-papaparse';
 import * as FileSaver from 'file-saver';
 import { ProyectoImp } from '../../_models/models';
+import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-horas-estimadas-vs-cargadas',
@@ -39,7 +41,8 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
                 private authService: AuthService,
                 private layoutService: LayoutService,
                 private cargoService: CargoService,
-                private papa: PapaParseService) {
+                private papa: PapaParseService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -73,11 +76,6 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
 
     proyectoSeleccionado(proyecto: Proyecto) {
         this.proyectoActual = new ProyectoImp(proyecto);
-        this.proyectoOTareaSeleccionados();
-    }
-
-    tareaSeleccionada(tarea: TipoTarea) {
-        this.tareaActual = tarea;
         this.proyectoOTareaSeleccionados();
     }
 
@@ -185,4 +183,11 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
         const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
         FileSaver.saveAs(blob2, nombre2);
     }
+
+    VerObservaciones(x: string) {
+        const dialogRef = this.dialog.open(DialogInfoComponent, {
+          data: ['Observaciones', x],
+          width: '600px',
+        });
+      }
 }

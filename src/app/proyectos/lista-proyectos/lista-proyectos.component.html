@@ -26,9 +26,16 @@
             <td *ngIf="showIdColumns">{{x.id}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.nombre}}</td>
             <td class="mdl-data-table__cell--non-numeric">{{x.codigo}}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{x.observacion}}</td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <button *ngIf="x.observacion !== undefined && x.observacion !== ''" matTooltipPosition="above" matTooltip="Ver Observaciones."
+                mat-icon-button (click)="VerObservaciones(x.observacion)">
+                <mat-icon class="material-icons">visibility</mat-icon>
+              </button>
+            </td>
             <td>{{x.prioridad}}</td>
-            <td><mat-checkbox [disabled]="true" [(ngModel)]="x.enabled"></mat-checkbox></td>
+            <td>
+              <mat-checkbox [disabled]="true" [(ngModel)]="x.enabled"></mat-checkbox>
+            </td>
             <td>
               <button mat-icon-button color="primary" (click)="Editar(x)">
                 <mat-icon class="material-icons">mode_edit</mat-icon>
