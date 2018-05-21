@@ -37,6 +37,10 @@ export class AltaProyectoComponent implements OnInit {
       this.proyectoActual.observacion = '';
     } else {
       this.proyectoActual = new ProyectoImp(this.data[0]);
+      if (this.proyectoActual.observacion === undefined) {
+        this.proyectoActual.observacion = '';
+      }
+
     }
   }
 
