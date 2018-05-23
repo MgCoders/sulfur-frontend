@@ -32,7 +32,10 @@ import {
   Validators
 } from '@angular/forms';
 
+import * as FileSaver from 'file-saver';
+
 import { TimePipe } from '../../_pipes/time.pipe';
+import { PapaParseService } from 'ngx-papaparse';
 
 @Component({
   selector: 'app-mis-horas',
@@ -44,7 +47,7 @@ export class MisHorasComponent implements OnInit {
   public fDesde: Date;
   public fHasta: Date;
   public lista: Hora[];
-  public listaTotales: Array<{proyectoId: number, proyectoNombre: string, minutos: number}>;
+  public listaTotales: Array<{proyectoId: number, proyectoNombre: string, minutos: number, observacion: string}>;
   public total: number;
   public colaboradorActual: Colaborador;
   public loading: boolean;
@@ -57,7 +60,8 @@ export class MisHorasComponent implements OnInit {
               private timePipe: TimePipe,
               private authService: AuthService,
               private layoutService: LayoutService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              public papa: PapaParseService) {
 }
 
   ngOnInit() {
@@ -116,7 +120,7 @@ export class MisHorasComponent implements OnInit {
       x.horaDetalleList.forEach((y) => {
         const pId: number = this.listaTotales.findIndex((z) => z.proyectoId === y.proyecto.id);
         if (pId < 0) {
-          this.listaTotales.push({proyectoId: y.proyecto.id, proyectoNombre: y.proyecto.nombre, minutos: this.timePipe.transform(y.duracion, ['minutos'])});
+          this.listaTotales.push({proyectoId: y.proyecto.id, proyectoNombre: y.proyecto.nombre, minutos: this.timePipe.transform(y.duracion, ['minutos']), observacion: y.proyecto.observacion});
         } else {
           this.listaTotales.find((z) => z.proyectoId === y.proyecto.id).minutos += this.timePipe.transform(y.duracion, ['minutos']);
         }
@@ -159,5 +163,36 @@ export class MisHorasComponent implements OnInit {
     this.fHasta = newFHasta;
 
     this.Reload();
+  }
+
+  public Download_CSV() {
+    // Generamos el archivo con el detalle del historico de horas.
+    const nombre: string = this.colaboradorActual.nombre.replace(' ', '_') + '_detalle_' +
+      this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
+      this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
+    const detalle: Array<{Dia: string, Hora_Entrada: string, Hora_Salida: string, Tiempo_Total: string, Horas_Cargadas: string, Status: string}> = new Array();
+    this.lista.forEach((x) => {
+        detalle.push({Dia: x.dia, Hora_Entrada: x.horaIn, Hora_Salida: x.horaOut, Tiempo_Total: this.timePipe.transform(x.subtotal, ['HH:mm']), Horas_Cargadas: this.timePipe.transform(x.subtotalDetalles, ['HH:mm']), Status: (x.completa ? 'Ok' : 'Error')});
+      });
+    const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
+    FileSaver.saveAs(blob, nombre);
+
+    // Generamos el archivo con el resumen del historico de horas.
+    const nombre2: string = this.colaboradorActual.nombre.replace(' ', '_') + '_resumen_' +
+      this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
+      this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
+    const resumen: Array<{Proyecto: string, Observacion: string, Horas: string, Minutos: string}> = new Array();
+    this.listaTotales.forEach((x) => {
+      const cantHoras: string[] = this.GetMinutosToString2(x.minutos).split(':');
+      resumen.push({Proyecto: x.proyectoNombre, Observacion: x.observacion, Horas: cantHoras[0], Minutos: cantHoras[1] });
+    });
+    const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
+    FileSaver.saveAs(blob2, nombre2);
+  }
+
+  GetMinutosToString2(m: number) {
+    const horas = Math.trunc((m) / 60);
+    const minutos = (m) - Math.trunc((m) / 60) * 60;
+    return horas + ':' + minutos;
   }
 }
