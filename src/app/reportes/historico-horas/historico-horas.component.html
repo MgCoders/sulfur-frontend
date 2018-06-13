@@ -54,12 +54,6 @@
                 <tbody>
                   <tr *ngFor="let y of listaTotales">
                     <td class="text-left">{{y.proyectoNombre}}</td>
-                    <td class="text-left">
-                      <button *ngIf="y.observacion !== undefined && y.observacion !== ''" matTooltipPosition="above" matTooltip="Ver Observaciones."
-                        mat-icon-button (click)="VerObservaciones(y.observacion)">
-                        <mat-icon class="material-icons">visibility</mat-icon>
-                      </button>
-                    </td>
                     <td class="text-right">
                       <span>{{GetMinutosToString(y.minutos)}}</span>
                     </td>
@@ -67,7 +61,7 @@
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="2" class="text-rigth">
+                    <td class="text-rigth">
                       <b>TOTALES</b>
                     </td>
                     <td>

@@ -181,10 +181,10 @@ export class MisHorasComponent implements OnInit {
     const nombre2: string = this.colaboradorActual.nombre.replace(' ', '_') + '_resumen_' +
       this.datePipe.transform(this.fDesde, 'yyyyMMdd') + '_' +
       this.datePipe.transform(this.fHasta, 'yyyyMMdd') + '.csv';
-    const resumen: Array<{Proyecto: string, Observacion: string, Horas: string, Minutos: string}> = new Array();
+    const resumen: Array<{Proyecto: string, Horas: string, Minutos: string}> = new Array();
     this.listaTotales.forEach((x) => {
       const cantHoras: string[] = this.GetMinutosToString2(x.minutos).split(':');
-      resumen.push({Proyecto: x.proyectoNombre, Observacion: x.observacion, Horas: cantHoras[0], Minutos: cantHoras[1] });
+      resumen.push({Proyecto: x.proyectoNombre, Horas: cantHoras[0], Minutos: cantHoras[1] });
     });
     const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);
