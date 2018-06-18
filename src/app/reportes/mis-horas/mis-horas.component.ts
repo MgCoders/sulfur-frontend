@@ -186,6 +186,9 @@ export class MisHorasComponent implements OnInit {
       const cantHoras: string[] = this.GetMinutosToString2(x.minutos).split(':');
       resumen.push({Proyecto: x.proyectoNombre, Horas: cantHoras[0], Minutos: cantHoras[1] });
     });
+    let totalMinutos: number = 0;
+    this.listaTotales.forEach((x) => totalMinutos += x.minutos);
+    resumen.push({Proyecto: 'TOTAL (HH:MM):', Horas: (Math.trunc(totalMinutos / 60).toString() + ':' + (totalMinutos % 60).toString()), Minutos: '' });
     const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
     FileSaver.saveAs(blob2, nombre2);
   }
