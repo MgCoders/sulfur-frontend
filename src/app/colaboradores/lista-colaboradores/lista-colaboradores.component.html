@@ -13,10 +13,22 @@
         <thead>
           <tr>
             <th *ngIf="showIdColumns">#</th>
-            <th class="mdl-data-table__cell--non-numeric">Nombre</th>
-            <th class="mdl-data-table__cell--non-numeric">E-mail</th>
-            <th class="mdl-data-table__cell--non-numeric">Cargo</th>
-            <th class="mdl-data-table__cell--non-numeric">Role</th>
+            <th class="mdl-data-table__cell--non-numeric">
+              Nombre
+              <app-sort-direction filed="nombre" [headers]="headers" headerIndex="0" (onClickEvent)="SortOnclick($event)"></app-sort-direction>
+            </th>
+            <th class="mdl-data-table__cell--non-numeric">
+              E-mail
+              <app-sort-direction filed="email" [headers]="headers" headerIndex="1" (onClickEvent)="SortOnclick($event)"></app-sort-direction>
+            </th>
+            <th class="mdl-data-table__cell--non-numeric">
+              Cargo
+              <app-sort-direction filed="cargo" [headers]="headers" headerIndex="2" (onClickEvent)="SortOnclick($event)"></app-sort-direction>
+            </th>
+            <th class="mdl-data-table__cell--non-numeric">
+              Role
+              <app-sort-direction filed="role" [headers]="headers" headerIndex="3" (onClickEvent)="SortOnclick($event)"></app-sort-direction>
+            </th>
             <th>¿Habilitado?</th>
             <th></th>
           </tr>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { AltaColaboradorComponent } from '../alta-colaborador/alta-colaborador.component';
 import { ColaboradorService } from '../../_services/colaborador.service';
@@ -17,12 +17,14 @@ import { CargoImp } from '../../_models/CargoImp';
 export class ListaColaboradoresComponent implements OnInit {
 
   public lista: Colaborador[];
+  public headers: number[] = [0,0,0,0];
   public showIdColumns: boolean;
 
   constructor(public dialog: MatDialog,
               private service: ColaboradorService,
               private as: AlertService,
-              private layoutService: LayoutService) { }
+              private layoutService: LayoutService,
+              private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.lista = new Array();
@@ -72,5 +74,23 @@ export class ListaColaboradoresComponent implements OnInit {
       data: [x, this.lista],
       width: '600px',
     });
+  }
+
+  SortOnclick(evt: {field: string, direction: number}) {
+    this.lista = this.lista.sort((a, b) => {
+      switch (evt.field) {
+        case 'nombre': return this.compare(a.nombre, b.nombre, evt.direction);
+        case 'email': return this.compare(a.email, b.email, evt.direction);
+        case 'cargo': return this.compare(a.cargo.id, b.cargo.id, evt.direction);
+        case 'role': return this.compare(a.role, b.role, evt.direction);
+        default: return 0;
+      }
+    });
+
+    this.ref.detectChanges();
+  }
+
+  compare(a: number | string, b: number | string, order: number) {
+    return (a < b ? -1 : 1) * order;
   }
 }
