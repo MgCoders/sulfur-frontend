@@ -17,6 +17,7 @@ import * as FileSaver from 'file-saver';
 import { ProyectoImp } from '../../_models/models';
 import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.component';
 import { MatDialog } from '@angular/material';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-horas-estimadas-vs-cargadas',
@@ -33,6 +34,10 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     public tareas: TipoTarea[];
     public proyectos: Proyecto[];
     public loading: number = 0;
+    public fDesde: Date;
+    public fHasta: Date;
+    public fDesdeFC = new FormControl('', []);
+    public fHastaFC = new FormControl('', []);
 
     constructor(private reporteService: ReporteService,
                 private alertService: AlertService,
@@ -50,6 +55,8 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
         this.CallService();
         this.tareaActual = {} as TipoTarea;
         this.proyectoActual = {} as Proyecto;
+        this.fHasta = undefined;
+        this.fDesde = undefined;
         this.tareaService.getAll().subscribe(
             (data) => {
                 this.tareas = data.sort((a: TipoTarea, b: TipoTarea) => {
@@ -87,7 +94,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
 
             const tarea = this.tareaActual;
             this.CallService();
-            this.reporteService.getReporte1(this.proyectoActual, this.tareaActual).subscribe(
+            this.reporteService.getReporte1(this.proyectoActual, this.tareaActual, this.fDesde, this.fHasta).subscribe(
                 (horas) => {
                     this.horasPTXC.push({ tarea, horas });
                     this.EndService();
@@ -98,7 +105,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
                 });
 
             this.CallService();
-            this.reporteService.getReporte1Totales(this.proyectoActual).subscribe(
+            this.reporteService.getReporte1Totales(this.proyectoActual, this.fDesde, this.fHasta).subscribe(
                 (horas) => {
                     this.totales = horas;
                     this.EndService();
@@ -112,7 +119,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
 
             this.tareas.forEach((tarea) => {
                 this.CallService();
-                this.reporteService.getReporte1(this.proyectoActual, tarea).subscribe(
+                this.reporteService.getReporte1(this.proyectoActual, tarea, this.fDesde, this.fHasta).subscribe(
                     (horas) => {
                         if (this.getTotal(horas)[0].cantidadHoras > 0 || this.getTotal(horas)[0].cantidadHorasEstimadas > 0) {
                             this.horasPTXC.push({ tarea, horas });
@@ -130,7 +137,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
             });
 
             this.CallService();
-            this.reporteService.getReporte1Totales(this.proyectoActual).subscribe(
+            this.reporteService.getReporte1Totales(this.proyectoActual, this.fDesde, this.fHasta).subscribe(
                 (horas) => {
                     this.totales = horas;
                     this.EndService();

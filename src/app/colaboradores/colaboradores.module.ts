@@ -26,6 +26,7 @@ import { AlertService } from '../_services/alert.service';
 import { LayoutService } from '../layout/layout.service';
 
 import { CargosModule } from '../cargos/cargos.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { CargosModule } from '../cargos/cargos.module';
     MatDialogModule,
     CargosModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SharedModule
   ],
 
   declarations: [

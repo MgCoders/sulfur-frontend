@@ -28,4 +28,8 @@ export class EstimacionService {
   edit(x: Estimacion): Observable<any> {
         return this.http.put(`${environment.apiUrl}/estimaciones/` + x.id, x);
   }
+
+  delete(id: number): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/estimaciones/delete/` + id, null);
+  }
 }

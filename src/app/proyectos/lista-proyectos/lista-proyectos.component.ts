@@ -17,6 +17,7 @@ import { DialogInfoComponent } from '../../shared/dialog-info/dialog-info.compon
 export class ListaProyectosComponent implements OnInit {
 
   public lista: Proyecto[];
+  public headers: number[] = [0,0,0,0];
   public showIdColumns: boolean;
 
   constructor(public dialog: MatDialog,
@@ -90,5 +91,21 @@ export class ListaProyectosComponent implements OnInit {
       data: ['Observaciones', x],
       width: '600px',
     });
+  }
+
+  SortOnclick(evt: {field: string, direction: number}) {
+    this.lista = this.lista.sort((a, b) => {
+      switch (evt.field) {
+        case 'nombre': return this.compare(a.nombre, b.nombre, evt.direction);
+        case 'codigo': return this.compare(a.codigo, b.codigo, evt.direction);
+        case 'prioridad': return this.compare(a.prioridad, b.prioridad, evt.direction);
+        case 'enabled': return this.compare(a.enabled ? 1 : 0, b.enabled ? 1 : 0, evt.direction);
+        default: return 0;
+      }
+    });
+  }
+
+  compare(a: number | string, b: number | string, order: number) {
+    return (a < b ? -1 : 1) * order;
   }
 }

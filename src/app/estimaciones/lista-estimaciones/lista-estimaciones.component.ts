@@ -82,14 +82,24 @@ export class ListaEstimacionesComponent implements OnInit {
 
   Eliminar(x: Estimacion) {
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
-      data: '¿Está seguro que desea eliminar el cargo ' + x.id + '?',
+      data: '¿Está seguro que desea eliminar la Estimación ' + x.id + '?',
     });
 
     dialogRef.afterClosed().subscribe(
       (result) => {
         if (result) {
-          // TODO
-          this.as.success('Cargo eliminado correctamente.', 3000);
+          this.layoutService.updatePreloaderState('active');
+          this.service.delete(x.id).subscribe(
+            (est) => {
+              this.layoutService.updatePreloaderState('hide');
+              this.proyectoSeleccionado(this.proyectoActual);
+              this.as.success('Estimación eliminado correctamente.', 3000);
+            },
+            (error) => {
+              this.layoutService.updatePreloaderState('hide');
+              this.as.error('Error al eliminar la estimación.' + error, 5000);
+            }
+          )          
         }
       });
   }
@@ -102,7 +112,7 @@ export class ListaEstimacionesComponent implements OnInit {
   }
 
   proyectoSeleccionado(x: Proyecto) {
-    if (x === undefined) {
+    if (x === undefined || x === null || x.id === undefined || x.id === null) {
       this.LoadEstimaciones();
     } else {
       this.LoadEstimacionesPorProyecto(x.id);
