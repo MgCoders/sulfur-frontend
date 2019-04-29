@@ -23,8 +23,7 @@ export class ListaColaboradoresComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private service: ColaboradorService,
               private as: AlertService,
-              private layoutService: LayoutService,
-              private ref: ChangeDetectorRef) { }
+              private layoutService: LayoutService) { }
 
   ngOnInit() {
     this.lista = new Array();
@@ -86,8 +85,6 @@ export class ListaColaboradoresComponent implements OnInit {
         default: return 0;
       }
     });
-
-    this.ref.detectChanges();
   }
 
   compare(a: number | string, b: number | string, order: number) {

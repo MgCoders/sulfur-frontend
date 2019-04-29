@@ -22,6 +22,7 @@ import { SelectProyectoComponent } from './select-proyecto/select-proyecto.compo
 import { ProyectoService } from '../_services/proyecto.service';
 import { AlertService } from '../_services/alert.service';
 import { LayoutService } from '../layout/layout.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { LayoutService } from '../layout/layout.service';
     MatTooltipModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    SharedModule
   ],
 
   declarations: [
