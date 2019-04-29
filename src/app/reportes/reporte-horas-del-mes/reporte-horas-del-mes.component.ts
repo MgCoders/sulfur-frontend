@@ -67,8 +67,8 @@ export class ReporteHorasDelMesComponent implements OnInit {
   public lista: HorasReporte1[];
   public fDesde: Date;
   public fHasta: Date;
-  public fDesdeFC = new FormControl('', [Validators.required]);
-  public fHastaFC = new FormControl('', [Validators.required]);
+  public fDesdeFC = new FormControl('', []);
+  public fHastaFC = new FormControl('', []);
   public showIdColumns: boolean;
 
   constructor(private service: ReporteService,
@@ -137,19 +137,6 @@ export class ReporteHorasDelMesComponent implements OnInit {
   }
 
   Load() {
-    // Hacemos los chequeos.
-    if (this.fDesde === undefined || this.fDesde === null) {
-      this.as.error('Debe ingresar la fecha "Desde".', 5000);
-      return;
-    }
-    if (this.fHasta === undefined || this.fHasta === null) {
-      this.as.error('Debe ingresar la fecha "Hasta".', 5000);
-      return;
-    }
-    if (this.fDesde.getTime() > this.fHasta.getTime()) {
-      this.as.error('La fecha "Desde" debe ser menor o igual que la fecha "Hasta".', 5000);
-      return;
-    }
 
     if (this.proyectoActual === undefined || this.proyectoActual.id === undefined) {
       this.loading++;

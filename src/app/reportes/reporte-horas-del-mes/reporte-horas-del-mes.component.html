@@ -33,7 +33,7 @@
         </mat-form-field>
       </div>
       <div class="col-6 col-sm-1 full-width text-sm-right text-left">
-        <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading > 0" (click)="MesAnterior()" mat-icon-button
+        <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading > 0 || fDesde === null || fDesde === undefined || fHasta === null || fHasta === undefined" (click)="MesAnterior()" mat-icon-button
           color="warn">
           <mat-icon class="material-icons">replay</mat-icon>
         </button>

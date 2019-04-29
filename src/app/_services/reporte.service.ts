@@ -21,12 +21,34 @@ export class ReporteService {
     return this.http.get<HorasProyectoTipoTareaCargoXColaborador[]>(`${environment.apiUrl}/horas/proyecto/tarea/cargo/`);
   }
 
-  getReporte1(proyecto: Proyecto, tarea: TipoTarea): Observable<HorasReporte1[]> {
-    return this.http.get<HorasReporte1[]>(`${environment.apiUrl}/reportes/horas/proyecto/` + proyecto.id + `/tarea/` + tarea.id);
+  getReporte1(proyecto: Proyecto, tarea: TipoTarea, desde: Date, hasta: Date): Observable<HorasReporte1[]> {
+    let url = `${environment.apiUrl}/reportes/horas/proyecto/` + proyecto.id + `/tarea/` + tarea.id + '?';
+    if (desde !== undefined && desde !== null) {
+      url = url + 'fecha_ini=' + this.datePipe.transform(desde, 'dd-MM-yyyy')
+    }
+    if (hasta !== undefined && hasta !== null) {
+      if (desde !== undefined && desde !== null) {
+        url = url + '&';
+      }
+      url = url + 'fecha_fin=' + this.datePipe.transform(hasta, 'dd-MM-yyyy')
+    }
+
+    return this.http.get<HorasReporte1[]>(url);
   }
 
-  getReporte1Totales(proyecto: Proyecto): Observable<HorasReporte1[]> {
-    return this.http.get<HorasReporte1[]>(`${environment.apiUrl}/reportes/horas/proyecto/` + proyecto.id);
+  getReporte1Totales(proyecto: Proyecto, desde: Date, hasta: Date): Observable<HorasReporte1[]> {
+    let url = `${environment.apiUrl}/reportes/horas/proyecto/` + proyecto.id + '?';
+    if (desde !== undefined && desde !== null) {
+      url = url + 'fecha_ini=' + this.datePipe.transform(desde, 'dd-MM-yyyy')
+    }
+    if (hasta !== undefined && hasta !== null) {
+      if (desde !== undefined && desde !== null) {
+        url = url + '&';
+      }
+      url = url + 'fecha_fin=' + this.datePipe.transform(hasta, 'dd-MM-yyyy')
+    }
+
+    return this.http.get<HorasReporte1[]>(url);
   }
 
   getEstimacionProyectoTipoTareaXCargo(proyecto: Proyecto, tarea: TipoTarea): Observable<EstimacionProyectoTipoTareaXCargo[]> {
@@ -38,14 +60,33 @@ export class ReporteService {
   }
 
   getResumenHoras(desde: Date, hasta: Date): Observable<HorasReporte1[]> {
-    return this.http.get<HorasReporte1[]>(`${environment.apiUrl}/reportes/horas/fechas/` +
-      this.datePipe.transform(desde, 'dd-MM-yyyy') + `/` + this.datePipe.transform(hasta, 'dd-MM-yyyy'));
+    let url = `${environment.apiUrl}/reportes/horas/fechas?`;
+    if (desde !== undefined && desde !== null) {
+      url = url + 'fecha_ini=' + this.datePipe.transform(desde, 'dd-MM-yyyy')
+    }
+    if (hasta !== undefined && hasta !== null) {
+      if (desde !== undefined && desde !== null) {
+        url = url + '&';
+      }
+      url = url + 'fecha_fin=' + this.datePipe.transform(hasta, 'dd-MM-yyyy')
+    }
+
+    return this.http.get<HorasReporte1[]>(url);
   }
 
   getResumenHoras_x_proyecto(desde: Date, hasta: Date, idProyecto: number): Observable<HorasReporte1[]> {
-    return this.http.get<HorasReporte1[]>(`${environment.apiUrl}/reportes/horas/fechas/` +
-      this.datePipe.transform(desde, 'dd-MM-yyyy') + `/` + this.datePipe.transform(hasta, 'dd-MM-yyyy') +
-      `/proyecto/` + idProyecto.toString());
+    let url = `${environment.apiUrl}/reportes/horas/fechas/proyecto/` + idProyecto.toString() + '?';
+    if (desde !== undefined && desde !== null) {
+      url = url + 'fecha_ini=' + this.datePipe.transform(desde, 'dd-MM-yyyy')
+    }
+    if (hasta !== undefined && hasta !== null) {
+      if (desde !== undefined && desde !== null) {
+        url = url + '&';
+      }
+      url = url + 'fecha_fin=' + this.datePipe.transform(hasta, 'dd-MM-yyyy')
+    }
+
+    return this.http.get<HorasReporte1[]>(url);
   }
 
   getResumenHoras_x_colaborador(desde: Date, hasta: Date): Observable<HorasReporte2[]> {
