@@ -11,8 +11,6 @@ phases:
         - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done"
         - apk -Uuv add groff less python py-pip;
         - pip install awscli;
-        - echo Logging in to Amazon ECR...
-        - $(aws ecr get-login --region $AWS_DEFAULT_REGION)
     pre_build:
       commands:
         - echo Logging in to Amazon ECR...
@@ -27,8 +25,8 @@ phases:
       commands:
         - echo Build completed on `date`
         - echo Pushing the Docker image...
-        - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:1.6
         - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+        - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:1.6
 
 artifacts:
   files:
