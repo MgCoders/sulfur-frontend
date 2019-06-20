@@ -106,6 +106,23 @@ export class ListaProyectosComponent implements OnInit {
   }
 
   compare(a: number | string, b: number | string, order: number) {
-    return (a < b ? -1 : 1) * order;
+    let auxA = Number(a);
+    let auxB = Number(b);
+
+    if (Number.isNaN(auxA) && Number.isNaN(auxB)) {
+      return (a < b ? -1 : 1) * order;
+    }
+
+    if (!Number.isNaN(auxA) && Number.isNaN(auxB)) {
+      return -1 * order;
+    }
+
+    if (Number.isNaN(auxA) && !Number.isNaN(auxB)) {
+      return 1 * order;
+    }
+
+    if (!Number.isNaN(auxA) && !Number.isNaN(auxB)) {
+      return (auxA < auxB ? -1 : 1) * order;
+    }
   }
 }
