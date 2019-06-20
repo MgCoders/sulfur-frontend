@@ -8,6 +8,7 @@ services:
       - traefik_proxy
     environment:
       - BACKEND_URL=sulfur.magnesium.link
+      - ICO_URL=https://of-tools-icons.s3.amazonaws.com/FE-Icons/marq.ico
     deploy:
       labels:
         - "traefik.port=80"
