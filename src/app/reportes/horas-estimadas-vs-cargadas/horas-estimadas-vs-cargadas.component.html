@@ -2,7 +2,7 @@
 
   <article class="article">
     <div class="row">
-      <h2 class="article-title col-12 col-sm-5">
+      <h2 class="article-title col-12 col-sm-4">
         <span>Proyectos Detalle</span>
         <span *ngIf="proyectoActual !== undefined" class="space"></span>
         <span *ngIf="proyectoActual !== undefined"
@@ -36,6 +36,12 @@
           <mat-datepicker-toggle matSuffix [for]="pickerFHasta"></mat-datepicker-toggle>
           <mat-datepicker #pickerFHasta></mat-datepicker>
         </mat-form-field>
+      </div>
+      <div class="col-6 col-sm-1 full-width text-sm-right text-left">
+        <button matTooltipPosition="above" matTooltip="Mes Anterior." [disabled]="loading > 0 || fDesde === null || fDesde === undefined || fHasta === null || fHasta === undefined" (click)="MesAnterior()" mat-icon-button
+          color="warn">
+          <mat-icon class="material-icons">replay</mat-icon>
+        </button>
       </div>
       <div class="col-12 col-sm-1 full-width text-sm-right text-left">
         <button matTooltipPosition="above" matTooltip="Bajar archivo csv con los datos." [disabled]="loading > 0"

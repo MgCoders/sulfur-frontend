@@ -40,14 +40,14 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     public fHastaFC = new FormControl('', []);
 
     constructor(private reporteService: ReporteService,
-                private alertService: AlertService,
-                private proyectoService: ProyectoService,
-                private tareaService: TareaService,
-                private authService: AuthService,
-                private layoutService: LayoutService,
-                private cargoService: CargoService,
-                private papa: PapaParseService,
-                public dialog: MatDialog) {
+        private alertService: AlertService,
+        private proyectoService: ProyectoService,
+        private tareaService: TareaService,
+        private authService: AuthService,
+        private layoutService: LayoutService,
+        private cargoService: CargoService,
+        private papa: PapaParseService,
+        public dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -55,13 +55,14 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
         this.CallService();
         this.tareaActual = {} as TipoTarea;
         this.proyectoActual = {} as Proyecto;
-        this.fHasta = undefined;
-        this.fDesde = undefined;
+        this.fHasta = new Date();
+        this.fDesde = new Date();
+        this.fDesde.setDate(1);
         this.tareaService.getAll().subscribe(
             (data) => {
                 this.tareas = data.sort((a: TipoTarea, b: TipoTarea) => {
                     return b.prioridad - a.prioridad;
-                  });
+                });
                 this.EndService();
             },
             (error) => {
@@ -145,7 +146,7 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
                 (error) => {
                     this.alertService.error(error, 5000);
                     this.EndService();
-            });
+                });
         }
     }
 
@@ -158,12 +159,12 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     }
 
     CallService() {
-        this.loading ++;
+        this.loading++;
         this.layoutService.updatePreloaderState('active');
     }
 
     EndService() {
-        this.loading --;
+        this.loading--;
         if (this.loading === 0) {
             this.layoutService.updatePreloaderState('hide');
         }
@@ -172,29 +173,59 @@ export class HorasEstimadasVsCargadasComponent implements OnInit {
     public Download_CSV() {
         // Generamos el archivo con el detalle de la comparacion de horas cargadas vs. estimadas.
         const nombre: string = this.proyectoActual.nombre.replace(' ', '_') + '_EVR_detalle.csv';
-        const detalle: Array<{Tarea: string, Cargo: string, Horas_Estimadas: string, Horas_Cargadas: string}> = new Array();
+        const detalle: Array<{ Tarea: string, Cargo: string, Horas_Estimadas: string, Horas_Cargadas: string }> = new Array();
         this.horasPTXC.forEach((x) => {
             this.getFilas(x.horas).forEach((y) => {
-                detalle.push({Tarea: x.tarea.nombre, Cargo: y.cargo.nombre, Horas_Estimadas: y.cantidadHorasEstimadas.toString().replace('.', ','), Horas_Cargadas: y.cantidadHoras.toString().replace('.', ',')});
+                detalle.push({ Tarea: x.tarea.nombre, Cargo: y.cargo.nombre, Horas_Estimadas: y.cantidadHorasEstimadas.toString().replace('.', ','), Horas_Cargadas: y.cantidadHoras.toString().replace('.', ',') });
             });
         });
-        const blob = new Blob([this.papa.unparse(detalle, {delimiter: ';'})]);
+        const blob = new Blob([this.papa.unparse(detalle, { delimiter: ';' })]);
         FileSaver.saveAs(blob, nombre);
 
         // Generamos el archivo con el resumen de la comparacion de horas cargadas vs. estimadas.
         const nombre2: string = this.proyectoActual.nombre.replace(' ', '_') + '_EVR_resumen.csv';
-        const resumen: Array<{Cargo: string, Horas_Estimadas: string, Costo_Estimado: string, Horas_Cargadas: string, Costo_Real: string}> = new Array();
+        const resumen: Array<{ Cargo: string, Horas_Estimadas: string, Costo_Estimado: string, Horas_Cargadas: string, Costo_Real: string }> = new Array();
         this.getFilas(this.totales).forEach((x) => {
-            resumen.push({Cargo: x.cargo.nombre, Horas_Estimadas: x.cantidadHorasEstimadas.toString().replace('.', ','), Costo_Estimado: x.precioEstimado.toString().replace('.', ','), Horas_Cargadas: x.cantidadHoras.toString().replace('.', ','), Costo_Real: x.precioTotal.toString().replace('.', ',') });
+            resumen.push({ Cargo: x.cargo.nombre, Horas_Estimadas: x.cantidadHorasEstimadas.toString().replace('.', ','), Costo_Estimado: x.precioEstimado.toString().replace('.', ','), Horas_Cargadas: x.cantidadHoras.toString().replace('.', ','), Costo_Real: x.precioTotal.toString().replace('.', ',') });
         });
-        const blob2 = new Blob([this.papa.unparse(resumen, {delimiter: ';'})]);
+        const blob2 = new Blob([this.papa.unparse(resumen, { delimiter: ';' })]);
         FileSaver.saveAs(blob2, nombre2);
     }
 
     VerObservaciones(x: string) {
         const dialogRef = this.dialog.open(DialogInfoComponent, {
-          data: ['Observaciones', x],
-          width: '600px',
+            data: ['Observaciones', x],
+            width: '600px',
         });
-      }
+    }
+
+    MesAnterior() {
+        const newFDesde = new Date();
+        const newFHasta = new Date();
+
+        if (this.fDesde.getMonth() === 0) {
+            newFDesde.setFullYear(this.fDesde.getFullYear() - 1);
+            newFDesde.setMonth(11);
+            newFDesde.setDate(1);
+        } else {
+            newFDesde.setFullYear(this.fDesde.getFullYear());
+            newFDesde.setMonth(this.fDesde.getMonth() - 1);
+            newFDesde.setDate(1);
+        }
+
+        if (this.fHasta.getMonth() === 0) {
+            newFHasta.setFullYear(this.fHasta.getFullYear() - 1);
+            newFHasta.setMonth(11);
+            newFHasta.setDate(new Date(this.fHasta.getFullYear(), this.fHasta.getMonth(), 0).getDate());
+        } else {
+            newFHasta.setFullYear(this.fHasta.getFullYear());
+            newFHasta.setMonth(this.fHasta.getMonth() - 1);
+            newFHasta.setDate(new Date(this.fHasta.getFullYear(), this.fHasta.getMonth(), 0).getDate());
+        }
+
+        this.fDesde = newFDesde;
+        this.fHasta = newFHasta;
+
+        this.proyectoOTareaSeleccionados();
+    }
 }
